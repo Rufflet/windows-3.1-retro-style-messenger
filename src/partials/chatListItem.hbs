@@ -1,0 +1,17 @@
+<div class="chat-list__item">
+  <div class="chat-list__item-avatar">
+    <img src="{{avatar}}" alt="avatar">
+  </div>
+  <div class="chat-list__item-details">
+    <div class="name">{{display_name}}</div>
+    <div class="message">{{short_message}}</div>
+  </div>
+  <div class="chat-list__item-meta">
+    <div class="date">{{last_msg_date}}</div>
+    {{#if count}}
+    <div class="count">
+      <span>{{count}}</span>
+    </div>
+    {{/if}}
+  </div>
+</div>

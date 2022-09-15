@@ -1,0 +1,22 @@
+---
+  styles:
+    - "./styles.css"
+---
+
+<main class="error-page">
+  {{!< base}}
+  {{#> "window/window" title="Application Error" }}
+  <div class="error-message">
+    <div class="error-message__image">
+      <img src="../../assets/err.png" alt="500">
+    </div>
+    <div class="error-message__text">
+      <p>Ошибка 500</p>
+      <p>«Internal Server Error»</p>
+    </div>
+  </div>
+  <div class="align-center">
+    <a class="button" href="/index.hbs">Назад</a>
+  </div>
+  {{/ "window/window" }}
+</main>

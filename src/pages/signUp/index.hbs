@@ -1,0 +1,22 @@
+---
+styles:
+- "./styles.css"
+---
+
+<main class="signup-page">
+  {{!< base}}
+  {{#> "window/window" title="Регистрация" }}
+  <form class="form aligned">
+    {{> input label="Почта:" name="email" value=signUp.email type="email"}}
+    {{> input label="Логин:" name="login" value=signUp.login type="text"}}
+    {{> input label="Имя:" name="first_name" value=signUp.first_name type="text"}}
+    {{> input label="Фамилия:" name="second_name" value=signUp.second_name type="text"}}
+    {{> input label="Телефон:" name="phone" value=signUp.phone type="tel"}}
+    {{> input label="Пароль:" name="password" value=signUp.password type="password"}}
+    {{> input label="Пароль ещё раз:" name="password2" value=signUp.password2 type="password"}}
+
+    {{> button text="Зарегистрироваться"}}
+    <a href="../signIn/index.hbs">Войти</a>
+  </form>
+  {{/ "window/window" }}
+</main>

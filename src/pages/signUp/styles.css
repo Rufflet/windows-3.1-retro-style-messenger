@@ -1,0 +1,19 @@
+.signup-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-page .window__content {
+  margin: 20px;
+}
+
+.signup-page .input-group__label {
+  width: 8em;
+}
+
+.signup-page form > .button {
+  margin: 25px 0 5px;
+}

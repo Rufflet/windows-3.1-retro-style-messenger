@@ -1,0 +1,38 @@
+---
+styles:
+- "./styles.css"
+---
+
+<main class="messenger-page">
+  {{!< base}}
+  {{#> "window/window" title="Мессенджер" }}
+  <div class="messenger-layout">
+    <div class="messenger-layout__menu-bar menu-bar">
+      <div class="menu-bar__item">
+        <a href="../profile/index.hbs">
+          <span style="text-decoration:underline;">П</span>рофиль
+        </a>
+      </div>
+      <div class="menu-bar__item">
+        <span style="text-decoration:underline;">Н</span>астройки
+      </div>
+      <div class="menu-bar__item">
+        <span style="text-decoration:underline;">В</span>ид
+      </div>
+      <div class="menu-bar__item">
+        П<span style="text-decoration:underline;">о</span>мощь
+      </div>
+    </div>
+    <div class="messenger-layout__content">
+      <div class="chat-list">
+        {{#each chatListItems}}
+        {{> chatListItem}}
+        {{/each}}
+      </div>
+      <div class="chat-content">
+        Выберите чат, чтобы отправить сообщение
+      </div>
+    </div>
+  </div>
+  {{/ "window/window" }}
+</main>

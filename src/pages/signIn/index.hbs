@@ -1,0 +1,17 @@
+---
+styles:
+- "./styles.css"
+---
+
+<main class="signin-page">
+  {{!< base}}
+  {{#> "window/window" title="Вход" }}
+  <form class="form aligned">
+    {{> input label="Логин:" name="login" value=signIn.login type="text"}}
+    {{> input label="Пароль:" name="password" value=signIn.password type="password"}}
+
+    {{> button text="Авторизоваться"}}
+    <a href="../signUp/index.hbs">Нет аккаунта?</a>
+  </form>
+  {{/ "window/window" }}
+</main>

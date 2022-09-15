@@ -1,0 +1,28 @@
+---
+styles:
+- "./styles.css"
+---
+
+<main class="profile-page">
+  {{!< base}}
+  {{#> "window/window" title="Профиль" }}
+  <div class="profile-page__avatar">
+    <img src="../../assets/avatar.png" alt="avatar">
+  </div>
+
+  <h3 class="profile-page__title">{{profile.first_name}} {{profile.second_name}}</h3>
+
+  <form class="form aligned">
+    {{> input label="Логин:" name="login" value=profile.login type="text" attrs="readonly"}}
+    {{> input label="Почта:" name="email" value=profile.email type="email" attrs="readonly"}}
+    {{> input label="Имя:" name="first_name" value=profile.first_name type="text" attrs="readonly"}}
+    {{> input label="Фамилия:" name="second_name" value=profile.second_name type="text" attrs="readonly"}}
+    {{> input label="Имя в чате:" name="display_name" value=profile.display_name type="text" attrs="readonly"}}
+    {{> input label="Телефон:" name="phone" value=profile.phone type="tel" attrs="readonly"}}
+
+    <a href="./edit.hbs">Изменить данные</a>
+    <a href="./change-password.hbs">Изменить пароль</a>
+    <a class="button" href="../../../index.hbs">Выйти</a>
+  </form>
+  {{/ "window/window" }}
+</main>

@@ -1,0 +1,28 @@
+/* CSS variables */
+:root {
+  /* colors */
+  --ms-blue-color: #0000a8;
+  --ms-blue-color-rgb: 0, 0, 168;
+  
+  --ms-light-gray-color: #bebebe;
+
+  --desktop-bg-color: #008080;
+  --ms-border-gray: #cdcdcd;
+  --win-header-color: var(--ms-blue-color);
+
+  /* common */
+  --border-color: #000;
+
+  /* text */
+  --base-text-color: #000;
+  --base-text-size: 12px;
+
+  /* link */
+  --link-text-color: var(--ms-blue-color);
+
+  /* buttons */
+  --button-bg-color: var(--ms-light-gray-color);
+  --button-text-color: #000;
+  --button-border-color: #000;
+  --button-inner-border-color: #eeeeee;
+}
