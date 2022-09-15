@@ -1,6 +1,6 @@
 # Мессенджер для Яндекс.Практикума
 
-[Demo (Netlify)](https://) | [Figma](https://www.figma.com/file/TzzWQOaqd8WQ3lo8muPKFN/Messenger)
+[Demo (Netlify)](https://sensational-torte-1795ab.netlify.app/) | [Figma](https://www.figma.com/file/TzzWQOaqd8WQ3lo8muPKFN/Messenger)
 
 ## Установка
 
@@ -39,11 +39,11 @@ npm run start
 
 ## Доступные страницы:
 -----
-* [Login](https://)
-* [Registration](https://)
-* [Dialog](https://)
-* [Account](https://)
-* [Account edit](https://)
-* [Password edit](https://)
-* [404 Error](https://)
-* [500 Error](https://)
+* [Login](https://sensational-torte-1795ab.netlify.app/src/pages/signin/)
+* [Registration](https://sensational-torte-1795ab.netlify.app/src/pages/signup/)
+* [Messenger](https://sensational-torte-1795ab.netlify.app/src/pages/messenger/index.html)
+* [Profile](https://sensational-torte-1795ab.netlify.app/src/pages/profile/index.html)
+* [Profile edit](https://sensational-torte-1795ab.netlify.app/src/pages/profile/edit.html)
+* [Password edit](https://sensational-torte-1795ab.netlify.app/src/pages/profile/change-password.html)
+* [404 Error](https://sensational-torte-1795ab.netlify.app/src/pages/error/404.html)
+* [500 Error](https://sensational-torte-1795ab.netlify.app/src/pages/error/500.html)
