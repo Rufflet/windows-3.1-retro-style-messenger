@@ -1,0 +1,30 @@
+[
+  {
+    "avatar": "../../assets/avatar3.png",
+    "display_name": "Bill",
+    "short_message": "Привет",
+    "last_msg_date": "11:15",
+    "count": 1
+  },
+  {
+    "avatar": "../../assets/avatar4.png",
+    "display_name": "Melinda",
+    "short_message": "Привет",
+    "last_msg_date": "10:32",
+    "count": 0
+  },
+  {
+    "avatar": "../../assets/avatar1.png",
+    "display_name": "Steve",
+    "short_message": "How about that?",
+    "last_msg_date": "Вт",
+    "count": 0
+  },
+  {
+    "avatar": "../../assets/avatar2.png",
+    "display_name": "Chuck",
+    "short_message": "Lorem Ipsum is simply dummy...",
+    "last_msg_date": "1 мая 2022",
+    "count": 2
+  }
+]

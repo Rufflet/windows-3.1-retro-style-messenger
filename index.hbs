@@ -1,0 +1,11 @@
+{{!< base}}
+<main class="start-page">
+  {{#> "window/window" title="Панель управления" }}
+  {{> startIcon text="Авторизация" img="signin.png" href="src/pages/signIn/index.hbs"}}
+  {{> startIcon text="Регистрация" img="signup.png" href="src/pages/signUp/index.hbs"}}
+  {{> startIcon text="Мессенджер" img="messenger.png" href="src/pages/messenger/index.hbs"}}
+  {{> startIcon text="Профиль" img="profile.png" href="src/pages/profile/index.hbs"}}
+  {{> startIcon text="404" img="404.png" href="src/pages/error/404.hbs"}}
+  {{> startIcon text="500" img="500.png" href="src/pages/error/500.hbs"}}
+  {{/ "window/window" }}
+</main>

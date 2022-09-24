@@ -1,0 +1,34 @@
+.button {
+  background: var(--button-bg-color);
+  color: var(--button-text-color);
+  margin: 0px;
+  border: 3px outset;
+  border-color: var(--button-inner-border-color);
+  position: relative;
+  text-decoration: none;
+}
+
+a.button {
+  margin-top: 1px;
+  padding: 1px 6px;
+}
+
+.button::after {
+  content: "";
+  border: 1px solid var(--button-border-color);
+  box-sizing: inherit;
+  margin: -4px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+a.button:visited {
+  border-color: var(--button-inner-border-color);
+}
+
+.button:active {
+  border: 3px inset;
+}

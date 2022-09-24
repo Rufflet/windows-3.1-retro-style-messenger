@@ -1,0 +1,22 @@
+---
+styles:
+- "./styles.css"
+---
+
+<main class="error-page">
+  {{!< base}}
+  {{#> "window/window" title="Application Error" }}
+  <div class="error-message">
+    <div class="error-message__image">
+      <img src="../../assets/warn.png" alt="404">
+    </div>
+    <div class="error-message__text">
+      <p>Ошибка 404</p>
+      <p>«Не найдено»</p>
+    </div>
+  </div>
+  <div class="align-center">
+    <a class="button" href="/index.hbs">Назад</a>
+  </div>
+  {{/ "window/window" }}
+</main>
