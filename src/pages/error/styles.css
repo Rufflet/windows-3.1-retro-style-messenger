@@ -30,6 +30,8 @@
 
 .error-message .error-message__image {
   margin-right: 25px;
+  width: 30px;
+  height: 30px;
 }
 
 .error-message .error-message__text p:first-child {

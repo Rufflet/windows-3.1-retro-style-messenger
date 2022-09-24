@@ -25,7 +25,7 @@ npm run dev
 ## Сборка и минификация для продакшена
 
 ```sh
-npm run dev
+npm run build
 ```
 
 
