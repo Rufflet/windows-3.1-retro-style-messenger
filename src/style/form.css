@@ -7,22 +7,3 @@
 .form.aligned {
   align-items: center;
 }
-
-.input-group {
-  margin-bottom: 5px;
-}
-
-.input-group__label {
-  width: 5em;
-  display: inline-block;
-}
-
-.input-group__input {
-  border: 1px solid var(--border-color);
-  border-radius: 0;
-}
-
-.input-group__input[readonly] {
-  border: none;
-  border-bottom: 1px solid #eee;
-}

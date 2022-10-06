@@ -1,12 +1,13 @@
-@import url("http://fonts.cdnfonts.com/css/fixedsys-excelsior-301");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+@import "//fonts.cdnfonts.com/css/fixedsys-excelsior-301";
+@import "//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css";
 
 * {
   box-sizing: border-box;
 }
 
 html,
-body {
+body,
+#app {
   width: 100vw;
   height: 100vh;
   padding: 0;

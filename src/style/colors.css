@@ -3,12 +3,11 @@
   /* colors */
   --ms-blue-color: #0000a8;
   --ms-blue-color-rgb: 0, 0, 168;
-
   --ms-light-gray-color: #bebebe;
-
   --desktop-bg-color: #008080;
   --ms-border-gray: #cdcdcd;
   --win-header-color: var(--ms-blue-color);
+  --ms-red: #f04e1f;
 
   /* common */
   --border-color: #000;
@@ -24,5 +23,5 @@
   --button-bg-color: var(--ms-light-gray-color);
   --button-text-color: #000;
   --button-border-color: #000;
-  --button-inner-border-color: #eeeeee;
+  --button-inner-border-color: #eee;
 }

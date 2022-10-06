@@ -1,7 +1,7 @@
 .button {
   background: var(--button-bg-color);
   color: var(--button-text-color);
-  margin: 0px;
+  margin: 0;
   border: 3px outset;
   border-color: var(--button-inner-border-color);
   position: relative;
