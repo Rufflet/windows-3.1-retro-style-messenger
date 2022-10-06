@@ -1,0 +1,25 @@
+.controlled-input {
+  margin-bottom: 5px;
+
+  &__label {
+    width: 5em;
+    display: inline-block;
+  }
+
+  &__input {
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+  }
+
+  &__input[readonly] {
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  &__error {
+    display: block;
+    font-size: 11px;
+    color: var(--ms-red);
+    text-align: right;
+  }
+}
