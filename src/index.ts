@@ -1,73 +1,55 @@
-// require("babel-core/register");
-import ChatListItem from "components/chatListItem";
-import Chat from "components/chat";
-import Textarea from "components/textarea";
-import ErrorComponent from "components/error";
-import StartIcon from "./components/startIcon";
-import Button from "./components/button";
-import ControlledInput from "./components/controlledInput";
-import Input from "./components/input";
-import Layout from "./components/layout";
-import WindowLayout from "./components/windowLayout";
-
-import CoverPage from "./views/cover";
-import SignInPage from "./views/signIn";
-import SignUpPage from "./views/signUp";
-import {
-  ProfilePage,
-  ProfileEditPage,
-  PasswordChangePage,
-} from "./views/profile";
-import { Error404Page, Error500Page } from "./views/errors";
-import MessengerPage from "./views/messenger";
+import { registerComponent, Router, Store } from "core";
+import { initApp } from "services/initApp";
+import { defaultState } from "store";
+import Handlebars from "handlebars";
+import { initRouter } from "./routes";
+import * as components from "./components";
 
 import "./style/main.css";
 
-import { renderDOM, registerComponent } from "./core";
-import { profile, chatList, chat, signIn, signUp } from "./data/dataset";
+Object.values(components).forEach((Component: any) => {
+  registerComponent(Component);
+});
 
-registerComponent(StartIcon);
-registerComponent(Button);
-registerComponent(ControlledInput);
-registerComponent(Input);
-registerComponent(Textarea);
-registerComponent(ErrorComponent);
-registerComponent(ChatListItem);
-registerComponent(Chat);
-registerComponent(Layout);
-registerComponent(WindowLayout);
+Handlebars.registerHelper("whosMessage", function (arg1, _options) {
+  return arg1 !== window.store.getState()?.user?.id ? "recieved" : "sent";
+});
+
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  switch (window.location.pathname) {
-    case "":
-    case "/":
-      renderDOM(new CoverPage());
-      break;
-    case "/signin":
-      renderDOM(new SignInPage(signIn));
-      break;
-    case "/signup":
-      renderDOM(new SignUpPage(signUp));
-      break;
-    case "/profile":
-      renderDOM(new ProfilePage(profile));
-      break;
-    case "/profile/edit":
-      renderDOM(new ProfileEditPage(profile));
-      break;
-    case "/profile/password-change":
-      renderDOM(new PasswordChangePage());
-      break;
-    case "/messenger":
-      renderDOM(new MessengerPage({ ...chatList, ...chat }));
-      break;
-    case "/404":
-      renderDOM(new Error404Page());
-      break;
-    case "/500":
-      renderDOM(new Error500Page());
-      break;
-    default:
-      renderDOM(new Error404Page());
-  }
+  const store = new Store<AppState>(defaultState);
+  const router = new Router();
+
+  /**
+   * Помещаем роутер и стор в глобальную область для доступа в хоках with*
+   * @warning Не использовать такой способ на реальный проектах
+   */
+  window.router = router;
+  window.store = store;
+
+  store.on("changed", (_prevState, nextState) => {
+    if (process.env.DEBUG) {
+      console.log(
+        "%cstore updated",
+        "background: #222; color: #bada55",
+        nextState
+      );
+    }
+  });
+
+  /**
+   * Инициализируем роутер
+   */
+  initRouter(router, store);
+
+  /**
+   * Загружаем данные для приложения
+   */
+  store.dispatch(initApp);
 });

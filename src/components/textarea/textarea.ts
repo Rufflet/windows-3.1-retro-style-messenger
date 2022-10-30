@@ -1,5 +1,14 @@
 import Block from "core/Block";
 
+interface TextareaPropsWithEvents
+  extends Omit<TextareaProps, "onChange" | "onFocus" | "onBlur"> {
+  events: {
+    change?: (e: Event) => void;
+    blur?: (e: Event) => void;
+    focus?: (e: Event) => void;
+  };
+}
+
 export interface TextareaProps {
   id?: string;
   name?: string;
@@ -11,7 +20,7 @@ export interface TextareaProps {
   onChange?: (e: Event) => void;
 }
 
-export class Textarea extends Block {
+export class Textarea extends Block<TextareaPropsWithEvents> {
   static componentName = "Textarea";
 
   constructor(props: TextareaProps) {

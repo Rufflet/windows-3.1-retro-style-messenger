@@ -43,8 +43,8 @@
     border-bottom: 1px solid var(--ms-border-gray);
     cursor: pointer;
 
-    &:hover {
-      background-color: rgb(var(--ms-blue-color-rgb) 0.1);
+    &.active, &:hover {
+      background-color: rgba(var(--ms-blue-color-rgb), 0.1);
     }
 
     &-avatar {
@@ -95,6 +95,7 @@
 }
 
 .chat-content {
+  position: relative;
   flex: 1;
   min-width: 500px;
   display: flex;

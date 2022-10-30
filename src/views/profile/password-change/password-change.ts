@@ -1,64 +1,56 @@
-import { Block, Validator } from "core";
+import { Block, Dispatch, Router, validate, Validator } from "core";
+import { withRouter, withStore } from "utils";
+import { changePassword } from "services/profile";
+
 import "../profile.css";
 
-export class PasswordChangePage extends Block {
-  constructor() {
-    const defaultValues = {
+export interface PasswordChangePageProps {
+  router: Router;
+  dispatch: Dispatch<AppState>;
+  passwordChangeFormError: Nullable<string>;
+}
+
+export class PasswordChangePage extends Block<PasswordChangePageProps> {
+  static componentName = "PasswordChangePage";
+
+  protected getStateFromProps() {
+    this.state = {
       values: {
-        password: "",
-        password2: "",
-        newpassword: "",
+        oldPassword: "",
+        newPassword: "",
+        newPassword2: "",
       },
       errors: {
-        password: "",
-        password2: "",
-        newpassword: "",
+        oldPassword: "",
+        newPassword: "",
+        newPassword2: "",
       },
-    };
-    super({
-      ...defaultValues,
-    });
-  }
-
-  protected getStateFromProps(props: any) {
-    this.state = {
       onSubmit: this.onSubmit.bind(this),
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
-      ...props,
+      goBack: () => this.props.router.back(),
     };
   }
 
   isFormValid() {
-    let isValid = true;
-    const newValues = { ...this.props.values };
-    const newErrors = { ...this.props.errors };
-
-    Object.keys(this.props.values).forEach((key) => {
-      newValues[key] = (
-        this.refs[key].getContent().querySelector("input") as HTMLInputElement
-      ).value;
-
-      const message = Validator(key, newValues[key]);
-      if (message) {
-        isValid = false;
-        newErrors[key] = message;
-      }
-    });
-
-    const newState = {
-      values: newValues,
-      errors: newErrors,
-    };
+    const { newState, isValid } = validate(
+      this.state.values,
+      this.state.errors,
+      this
+    );
 
     this.setState(newState);
-
     return isValid;
   }
 
   onSubmit() {
     if (this.isFormValid()) {
-      console.log("action/profile-edit", this.state.values);
+      console.log("action/password-change", this.state.values);
+      const data = {
+        oldPassword: this.state.values.oldPassword,
+        newPassword: this.state.values.newPassword,
+      };
+      this.props.dispatch(changePassword, data);
     }
   }
 
@@ -88,12 +80,12 @@ export class PasswordChangePage extends Block {
           <form class="form aligned">
             {{{ControlledInput
               label="Старый пароль:"
-              id="password"
-              name="password"
-              value="${values.password}"
-              error="${errors.password}"
+              id="oldPassword"
+              name="oldPassword"
+              value="${values.oldPassword}"
+              error="${errors.oldPassword}"
               type="password"
-              ref="password"
+              ref="oldPassword"
               placeholder="Старый пароль"
               onFocus=onFocus
               onBlur=onBlur
@@ -101,33 +93,45 @@ export class PasswordChangePage extends Block {
 
             {{{ControlledInput
               label="Новый пароль:"
-              id="password2"
-              name="password2"
-              value="${values.password2}"
-              error="${errors.password2}"
+              id="newPassword"
+              name="newPassword"
+              value="${values.newPassword}"
+              error="${errors.newPassword}"
               type="password"
-              ref="password2"
+              ref="newPassword"
               placeholder="Новый пароль"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
               label="Повторите новый пароль:"
-              id="newpassword"
-              name="newpassword"
-              value="${values.newpassword}"
-              error="${errors.newpassword}"
+              id="newPassword2"
+              name="newPassword2"
+              value="${values.newPassword2}"
+              error="${errors.newPassword2}"
               type="password"
-              ref="newpassword"
+              ref="newPassword2"
               placeholder="Повторите новый пароль"
               onFocus=onFocus
               onBlur=onBlur
             }}}
+            {{{ErrorComponent text=passwordChangeFormError}}}
 
-            {{{Button text="Сохранить" onClick=onSubmit}}}
+            <div class="align-center">
+              {{{Button text="Сохранить" onClick=onSubmit}}}
+              {{{Button text="Назад" onClick=goBack}}}
+            </div>
           </form>
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+function mapStateToProps(state: AppState) {
+  return {
+    passwordChangeFormError: state.passwordChangeFormError,
+  };
+}
+
+export default withRouter(withStore(PasswordChangePage, mapStateToProps));

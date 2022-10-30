@@ -2,11 +2,18 @@ import { InputProps } from "components/input/input";
 import Block from "core/Block";
 import "./controlledInput.css";
 
+interface ControlledInputPropsPropsEvents extends ControlledInputProps {
+  events: {
+    focus?: (e: Event) => void;
+    blur?: (e: Event) => void;
+  };
+}
+
 interface ControlledInputProps extends InputProps {
   label: string;
 }
 
-export class ControlledInput extends Block {
+export class ControlledInput extends Block<ControlledInputPropsPropsEvents> {
   static componentName = "ControlledInput";
 
   constructor(props: ControlledInputProps) {

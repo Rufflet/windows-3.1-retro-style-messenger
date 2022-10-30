@@ -48,10 +48,15 @@ npm run start
 * [Profile](https://sensational-torte-1795ab.netlify.app/profile)
 * [Profile edit](https://sensational-torte-1795ab.netlify.app/profile/edit)
 * [Password edit](https://sensational-torte-1795ab.netlify.app/profile/password-change)
-* [404 Error](https://sensational-torte-1795ab.netlify.app/404)
-* [500 Error](https://sensational-torte-1795ab.netlify.app/500)
+* [404 Error](https://sensational-torte-1795ab.netlify.app/error/404)
+* [500 Error](https://sensational-torte-1795ab.netlify.app/error/500)
 
 ## Changelog:
+### 3 Спринт:
+- добавлен роутинг
+- внедрено API чатов, авторизации и пользователей
+- подключен WebSocket для работы real-time сообщений
+
 ### 2 Спринт:
 - внедрён TypeScript
 - добавлена страница с лентой переписки

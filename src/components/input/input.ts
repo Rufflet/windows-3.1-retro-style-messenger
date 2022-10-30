@@ -1,5 +1,14 @@
 import Block from "core/Block";
 
+interface InputPropsWithEvents
+  extends Omit<InputProps, "onChange" | "onFocus" | "onBlur"> {
+  events: {
+    change?: (e: Event) => void;
+    blur?: (e: Event) => void;
+    focus?: (e: Event) => void;
+  };
+}
+
 export interface InputProps {
   id?: string;
   name?: string;
@@ -7,17 +16,25 @@ export interface InputProps {
   type?: string;
   value?: string;
   placeholder?: string;
+  accept?: string;
   attrs?: string;
   onBlur?: (e: Event) => void;
   onFocus?: (e: Event) => void;
   onChange?: (e: Event) => void;
 }
 
-export class Input extends Block {
+export class Input extends Block<InputPropsWithEvents> {
   static componentName = "Input";
 
   constructor(props: InputProps) {
-    super({ ...props, events: { focus: props.onFocus, blur: props.onBlur } });
+    super({
+      ...props,
+      events: {
+        blur: props.onBlur,
+        focus: props.onFocus,
+        change: props.onChange,
+      },
+    });
   }
 
   protected render(): string {
@@ -30,6 +47,9 @@ export class Input extends Block {
         type="{{type}}"
         value="{{value}}"
         placeholder="{{placeholder}}"
+        {{#if accept}}
+          accept="{{accept}}"
+        {{/if}}
         {{attrs}}
       >
     `;

@@ -17,7 +17,7 @@
 
     &.maximized {
       min-width: unset;
-      height: inherit;
+      height: 100%;
     }
   }
 

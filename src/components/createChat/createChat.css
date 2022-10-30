@@ -1,0 +1,55 @@
+.create-chart__wrapper {
+  z-index: 10000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(var(--ms-backdrop-color-rgb), 0.6);
+}
+
+.create-chat {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  flex-direction: column;
+  justify-content: center;
+
+  .window__content {
+    margin: 20px;
+  }
+
+  .window {
+    min-width: 400px;
+    min-height: 50px;
+  }
+
+  .window.minimized {
+    min-width: unset;
+    height: unset;
+  }
+
+  .window.maximized {
+    min-width: unset;
+    height: inherit;
+  }
+
+  .error-message {
+    display: flex;
+
+    .error-message__image {
+      margin-right: 25px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .error-message__text p:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .align-center {
+    text-align: center;
+  }
+}
