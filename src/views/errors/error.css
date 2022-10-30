@@ -20,7 +20,7 @@
 
   .window.maximized {
     min-width: unset;
-    height: inherit;
+    height: 100%;
   }
 
   .error-message {

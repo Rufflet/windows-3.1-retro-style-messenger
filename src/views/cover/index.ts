@@ -1,1 +1,1 @@
-export { CoverPage as default } from "./cover";
+export { default } from "./cover";

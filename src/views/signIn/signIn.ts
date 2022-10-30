@@ -1,14 +1,21 @@
-import { Block, Validator } from "core";
+import { Router, Dispatch, Block, Validator, validate } from "core";
+import { withStore, withRouter } from "utils";
+import { signIn } from "services/auth";
+import { Views } from "utils/views";
+
 import "./signin.css";
 
 interface SignInPageProps {
-  login?: string;
-  password?: string;
+  router: Router;
+  dispatch: Dispatch<AppState>;
+  signInFormError: Nullable<string>;
 }
 
-export class SignInPage extends Block {
-  constructor(props: SignInPageProps) {
-    const defaultValues = {
+export class SignInPage extends Block<SignInPageProps> {
+  static componentName = "SignInPage";
+
+  protected getStateFromProps(props: TemplateProps) {
+    this.state = {
       values: {
         login: "",
         password: "",
@@ -17,20 +24,10 @@ export class SignInPage extends Block {
         login: "",
         password: "",
       },
-    };
-
-    defaultValues.values = { ...defaultValues.values, ...props };
-
-    super({
-      ...defaultValues,
-    });
-  }
-
-  protected getStateFromProps(props: TemplateProps) {
-    this.state = {
       onSubmit: this.onSubmit.bind(this),
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
+      goSignUp: () => this.props.router.go(Views.SignUp),
       ...props,
     };
   }
@@ -52,36 +49,25 @@ export class SignInPage extends Block {
   }
 
   isFormValid() {
-    let isValid = true;
-    const newValues = { ...this.props.values };
-    const newErrors = { ...this.props.errors };
-
-    Object.keys(this.props.values).forEach((key) => {
-      newValues[key] = (
-        this.refs[key].getContent().querySelector("input") as HTMLInputElement
-      ).value;
-
-      const message = Validator(key, newValues[key]);
-      if (message) {
-        isValid = false;
-        newErrors[key] = message;
-      }
-    });
-
-    const newState = {
-      values: newValues,
-      errors: newErrors,
-    };
+    const { newState, isValid } = validate(
+      this.state.values,
+      this.state.errors,
+      this
+    );
 
     this.setState(newState);
-
     return isValid;
   }
 
   onSubmit() {
     if (this.isFormValid()) {
       console.log("action/signIn", this.state.values);
+      this.props.dispatch(signIn, this.state.values);
     }
+  }
+
+  componentDidMount() {
+    if (window.store.getState().user) this.props.router.go("/messenger");
   }
 
   render() {
@@ -117,12 +103,21 @@ export class SignInPage extends Block {
               onFocus=onFocus
               onBlur=onBlur
             }}}
-        
+            {{{ErrorComponent text=signInFormError}}}
+
             {{{Button text="Авторизоваться" onClick=onSubmit}}}
-            <a href="/signup">Нет аккаунта?</a>
+            {{{Link text="Нет аккаунта?" onClick=goSignUp}}}
           </form>
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+function mapStateToProps(state: AppState) {
+  return {
+    signInFormError: state.signInFormError,
+  };
+}
+
+export default withRouter(withStore(SignInPage, mapStateToProps));

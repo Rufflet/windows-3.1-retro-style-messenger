@@ -1,11 +1,22 @@
-import Block from "core/Block";
+import { Block, Router } from "core";
+import { withRouter } from "utils";
 import errorPic from "assets/err.png";
 
 import "./error.css";
 
-export class Error500Page extends Block {
-  // language=hbs
+interface Error500PageProps {
+  router: Router;
+}
+
+export class Error500Page extends Block<Error500PageProps> {
+  protected getStateFromProps() {
+    this.state = {
+      goBack: () => this.props.router.back(),
+    };
+  }
+
   render() {
+    // language=hbs
     return `
       {{#Layout class="error-page" }}
         {{#WindowLayout title="Application Error" }}
@@ -19,10 +30,12 @@ export class Error500Page extends Block {
             </div>
           </div>
           <div class="align-center">
-            <a class="button" href="/">Назад</a>
+            {{{Button text="Назад" onClick=goBack}}}
           </div>
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+export default withRouter(Error500Page);

@@ -1,48 +1,58 @@
-import { Block, Validator } from "core";
+import { Block, validate, Validator } from "core";
+import noAvatar from "assets/no-avatar.png";
+import { Message } from "api/types/chats";
+import { isEqual } from "utils";
+
 import "./chat.css";
 
 export interface ChatProps {
   avatar?: string;
   name: string;
-  messages?: Message[];
-  onClick: () => void;
+  messages: Message[];
+  users: Nullable<User[]>;
+  onSearchUser: (login: string) => void;
+  onMessage: (message: string) => void;
+  onShowAddUserForm: () => void;
+  onShowRemoveUserForm: () => void;
 }
 
-export interface Message {
-  id: number;
-  text: string;
-  user_id: number;
-  date: string;
-  read: boolean;
-}
-
-export class Chat extends Block {
+export class Chat extends Block<ChatProps> {
   static componentName = "Chat";
 
-  constructor(props: ChatProps) {
-    const defaultValues = {
+  protected getStateFromProps() {
+    this.state = {
       values: {
         message: "",
       },
       errors: {
         message: "",
       },
-    };
-
-    super({ ...defaultValues, ...props, events: { click: props.onClick } });
-  }
-
-  protected getStateFromProps(props: TemplateProps) {
-    this.state = {
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
-      onMessage: this.onMessage.bind(this),
-      ...props,
+      sendMessage: this.sendMessage.bind(this),
+      usersCount: () => this.props.users!.length,
     };
+  }
+
+  componentDidMount() {
+    this.scrollDown();
+  }
+
+  componentDidUpdate(oldProps: ChatProps, newProps: ChatProps): boolean {
+    if (isEqual(oldProps, newProps)) {
+      return false;
+    }
+    setTimeout(() => this.scrollDown());
+    return true;
+  }
+
+  scrollDown() {
+    const chatBodyEl = document.querySelector(".chat__body") as HTMLElement;
+    if (chatBodyEl) chatBodyEl.scrollTop = chatBodyEl.scrollHeight;
   }
 
   onFocus(e: Event) {
-    const input = e.target as HTMLInputElement;
+    const input = e.target as HTMLTextAreaElement;
     const { value, name } = input;
 
     const errorText = Validator(name, value);
@@ -50,7 +60,7 @@ export class Chat extends Block {
   }
 
   onBlur(e: Event) {
-    const input = e.target as HTMLInputElement;
+    const input = e.target as HTMLTextAreaElement;
     const { value, name } = input;
 
     const errorText = Validator(name, value);
@@ -58,87 +68,79 @@ export class Chat extends Block {
   }
 
   isFormValid() {
-    let isValid = true;
-    const newValues = { ...this.props.values };
-    const newErrors = { ...this.props.errors };
-
-    Object.keys(this.props.values).forEach((key) => {
-      newValues[key] = (
-        this.refs[key]
-          .getContent()
-          .querySelector("textarea") as HTMLTextAreaElement
-      ).value;
-
-      const message = Validator(key, newValues[key]);
-      if (message) {
-        isValid = false;
-        newErrors[key] = message;
-      }
-    });
-
-    const newState = {
-      values: newValues,
-      errors: newErrors,
-    };
+    const { newState, isValid } = validate(
+      this.state.values,
+      this.state.errors,
+      this
+    );
 
     this.setState(newState);
-
     return isValid;
   }
 
-  onMessage() {
+  sendMessage() {
     if (this.isFormValid()) {
       console.log("action/onMessage", this.state.values);
+      this.props.onMessage(this.state.values.message);
     }
   }
 
   protected render(): string {
-    const { name, avatar, values, errors } = this.props;
+    const { values, errors } = this.state;
 
     // language=hbs
     return `
       <div class="chat">
-        {{#if messages}}
-          <div class="chat__header">
-            <div class="chat__header-avatar">
-              <img src="${avatar}" alt="avatar">
-            </div>
-            <div class="chat__header-name">
-              ${name}
+        <div class="chat__header">
+          <div class="chat__header-avatar">
+            <picture>
+              <source srcset="{{avatar}}" width="30" height="30">
+              <img src="${noAvatar}" alt="avatar" width="30" height="30">
+            </picture>
+          </div>
+          <div class="chat__header-name">
+            <div>{{name}}</div>
+            <div>
+              {{{Link text="Пользователей:" onClick=onShowRemoveUserForm}}} {{usersCount}}
             </div>
           </div>
-           <div class="chat__body">
+          <div class="chat__header-actions">
+            {{{Button text="Добавить в чат" onClick=onShowAddUserForm}}}
+          </div>
+        </div>
+        <div class="chat__body">
+          {{#if messages}}
             {{#each messages}}
-              <div class="chat__body-message {{#if user_id}}sent{{else}}recieved{{/if}}">
-                <div class="chat__body-message-text">{{this.text}}</div>
+              <div class="chat__body-message {{#whosMessage this.userId}}@{{/whosMessage}}">
+                <div class="chat__body-message-text">{{this.content}}</div>
               </div>
             {{/each}}
-          </div>
-          <div class="chat__footer">
-            <div class="chat__footer-textarea">
-              {{{ControlledInput
-                textarea=true
-                id="message"
-                name="message"
-                type="textarea"
-                ref="message"
-                placeholder="Ваше сообщение"
-                value="${values.message}"
-                error="${errors.message}"
-                ref="message"
-                onFocus=onFocus
-                onBlur=onBlur
-              }}}
+          {{else}}
+            <div class="chat__body_no-message">
+              <span>Нет сообщений</span>
             </div>
-            <div class="chat__footer-submit">
-              {{{Button text="Отправить" onClick=onMessage}}}
-            </div>
+          {{/if}}
+        </div>
+        <div class="chat__footer">
+          <div class="chat__footer-textarea">
+            {{{ControlledInput
+              textarea=true
+              id="message"
+              name="message"
+              type="textarea"
+              ref="message"
+              placeholder="Ваше сообщение"
+              value="${values.message}"
+              error="${errors.message}"
+              ref="message"
+              onFocus=onFocus
+              onBlur=onBlur
+            }}}
           </div>
-        {{else}}
-          <div class="chat__body chat__body_no-message">
-            <span>Выберите чат</span>
+          <div class="chat__footer-submit">
+            {{{Button text="Отправить" onClick=sendMessage}}}
           </div>
-        {{/if}}
+        </div>
       </div>
     `;
   }
