@@ -77,7 +77,7 @@ export class PasswordChangePage extends Block<PasswordChangePageProps> {
     return `
       {{#Layout class="profile-page" }}
         {{#WindowLayout title="Изменить пароль" }}
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Старый пароль:"
               id="oldPassword"
@@ -118,10 +118,10 @@ export class PasswordChangePage extends Block<PasswordChangePageProps> {
             {{{ErrorComponent text=passwordChangeFormError}}}
 
             <div class="align-center">
-              {{{Button text="Сохранить" onClick=onSubmit}}}
+              {{{Button text="Сохранить" type="submit"}}}
               {{{Button text="Назад" onClick=goBack}}}
             </div>
-          </form>
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;

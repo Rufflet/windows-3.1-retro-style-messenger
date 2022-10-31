@@ -2,7 +2,7 @@ import Block from "core/Block";
 
 interface StartIconPropsWithEvents extends Omit<StartIconProps, "onClick"> {
   events: {
-    click: (e: Event) => void;
+    click: EventHandler;
   };
 }
 

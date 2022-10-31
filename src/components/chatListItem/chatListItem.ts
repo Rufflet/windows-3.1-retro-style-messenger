@@ -5,7 +5,7 @@ import type { LastMessage } from "api/types/chats";
 
 interface ChatListItemPropsEvents extends ChatListItemProps {
   events: {
-    click: (e: Event) => void;
+    click: EventHandler;
   };
 }
 

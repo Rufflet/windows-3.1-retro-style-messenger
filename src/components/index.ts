@@ -6,6 +6,7 @@ export { default as ChatListItem } from "./chatListItem";
 export { default as ControlledInput } from "./controlledInput";
 export { default as CreateChat } from "./createChat";
 export { default as ErrorComponent } from "./error";
+export { default as Form } from "./form";
 export { default as Input } from "./input";
 export { default as Layout } from "./layout";
 export { default as Link } from "./link";

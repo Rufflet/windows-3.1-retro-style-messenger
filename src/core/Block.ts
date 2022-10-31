@@ -148,7 +148,7 @@ export default class Block<P extends Record<string, any> = any> {
     return this.element!;
   }
 
-  private _makePropsProxy(props: any): any {
+  private _makePropsProxy(props: P): P {
     return new Proxy(props as unknown as object, {
       get: (target: Record<string, unknown>, prop: string) => {
         const value = target[prop];

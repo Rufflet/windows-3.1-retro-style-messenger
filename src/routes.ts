@@ -1,8 +1,12 @@
-import { Store, renderDOM } from "core";
-import { getScreenComponent, Views } from "./utils/views";
-import { Router } from "./core/Router";
+import { Router, Store, renderDOM } from "core";
+import { getScreenComponent, Views } from "utils";
 
 const routes = [
+  {
+    path: "/messenger",
+    block: Views.Messenger,
+    shouldAuthorized: true,
+  },
   {
     path: "/cover",
     block: Views.Cover,
@@ -34,11 +38,6 @@ const routes = [
     shouldAuthorized: true,
   },
   {
-    path: "/messenger",
-    block: Views.Messenger,
-    shouldAuthorized: true,
-  },
-  {
     path: "/error/404",
     block: Views.Error404,
     shouldAuthorized: false,
@@ -65,7 +64,9 @@ export function initRouter(router: Router, store: Store<AppState>) {
         return;
       }
 
-      window.router.go(Views.SignIn);
+      if (!isAuthorized && route.shouldAuthorized) {
+        router.go(Views.SignIn);
+      }
     });
   });
 

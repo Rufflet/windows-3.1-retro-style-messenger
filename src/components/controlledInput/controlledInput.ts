@@ -4,8 +4,8 @@ import "./controlledInput.css";
 
 interface ControlledInputPropsPropsEvents extends ControlledInputProps {
   events: {
-    focus?: (e: Event) => void;
-    blur?: (e: Event) => void;
+    focus?: EventHandler;
+    blur?: EventHandler;
   };
 }
 

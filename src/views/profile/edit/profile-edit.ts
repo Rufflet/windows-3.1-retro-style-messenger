@@ -96,7 +96,7 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
         
           <h3 class="profile-page__title">${values.first_name} ${values.second_name}</h3>
 
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Логин:"
               id="login"
@@ -172,10 +172,10 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
             {{{ErrorComponent text=profileEditFormError}}}
 
             <div class="align-center">
-              {{{Button text="Сохранить" onClick=onSubmit}}}
+              {{{Button text="Сохранить" type="submit"}}}
               {{{Button text="Назад" onClick=goBack}}}
             </div>
-          </form>
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;

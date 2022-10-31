@@ -159,7 +159,7 @@ export class MessengerPage extends Block<MessengerPageProps> {
   }
 
   sendMessage(message: string) {
-    console.log("send message ", message);
+    console.log("sendMessage", message);
     this.props.dispatch(sendMessage, { message });
   }
 

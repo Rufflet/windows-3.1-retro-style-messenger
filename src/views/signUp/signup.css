@@ -14,6 +14,6 @@
   width: 8em;
 }
 
-.signup-page form > .button {
+.signup-page form .button {
   margin: 25px 0 5px;
 }

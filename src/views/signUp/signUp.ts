@@ -83,7 +83,7 @@ export class SignUpPage extends Block<SignUpPageProps> {
     return `
       {{#Layout class="signup-page" }}
         {{#WindowLayout title="Регистрация" }}
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Почта:"
               id="email"
@@ -176,9 +176,9 @@ export class SignUpPage extends Block<SignUpPageProps> {
             }}}
             {{{ErrorComponent text=signUpFormError}}}
         
-            {{{Button text="Зарегистрироваться" onClick=onSubmit}}}
+            {{{Button text="Зарегистрироваться" type="submit"}}}
             {{{Link text="Войти" onClick=goSignIn}}}
-          </form>
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;
