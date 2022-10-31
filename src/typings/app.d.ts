@@ -1,10 +1,17 @@
-import { Views } from "../utils/views";
+import { Views } from "utils";
+import { Dispatch } from "core";
 
 declare global {
   export type Nullable<T> = T | null;
   export type Keys<T extends Record<string, unknown>> = keyof T;
   export type Values<T extends Record<string, unknown>> = T[Keys<T>];
   export type TemplateProps = Record<string, unknown>;
+  export type EventHandler = (e: Event) => void;
+  export type DispatchStateHandler<TAction> = (
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: TAction
+  ) => Promise<void>;
 
   export type AppState = {
     appIsInited: boolean;

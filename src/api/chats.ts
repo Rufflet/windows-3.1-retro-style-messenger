@@ -16,9 +16,7 @@ import {
   GetChatUsersResponse,
 } from "./types/chats";
 
-const chatsAPIInstance = new HTTPTransport(
-  "https://ya-praktikum.tech/api/v2/chats"
-);
+const chatsAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/chats`);
 
 class ChatsAPI {
   get() {

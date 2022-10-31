@@ -7,9 +7,7 @@ import type {
 } from "./types/auth";
 import HTTPTransport from "../core/HTTPTransport";
 
-const authAPIInstance = new HTTPTransport(
-  "https://ya-praktikum.tech/api/v2/auth"
-);
+const authAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/auth`);
 
 class AuthAPI {
   signIn(data: SignInRequestData) {

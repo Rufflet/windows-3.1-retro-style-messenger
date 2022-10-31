@@ -70,11 +70,14 @@
 
   &__footer {
     width: 100%;
-    flex-direction: row;
-    gap: 20px;
     padding: 10px 10px 0;
-    display: flex;
     background: var(--ms-light-gray-color);
+
+    form {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
 
     &-textarea {
       flex: 1;

@@ -3,9 +3,9 @@ import Block from "core/Block";
 interface InputPropsWithEvents
   extends Omit<InputProps, "onChange" | "onFocus" | "onBlur"> {
   events: {
-    change?: (e: Event) => void;
-    blur?: (e: Event) => void;
-    focus?: (e: Event) => void;
+    change?: EventHandler;
+    blur?: EventHandler;
+    focus?: EventHandler;
   };
 }
 
@@ -18,9 +18,9 @@ export interface InputProps {
   placeholder?: string;
   accept?: string;
   attrs?: string;
-  onBlur?: (e: Event) => void;
-  onFocus?: (e: Event) => void;
-  onChange?: (e: Event) => void;
+  onBlur?: EventHandler;
+  onFocus?: EventHandler;
+  onChange?: EventHandler;
 }
 
 export class Input extends Block<InputPropsWithEvents> {

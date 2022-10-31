@@ -2,7 +2,7 @@ import Block from "core/Block";
 
 interface LinkPropsWithEvents extends Omit<LinkProps, "onClick"> {
   events: {
-    click: (e: Event) => void;
+    click: EventHandler;
   };
 }
 

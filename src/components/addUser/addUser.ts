@@ -26,8 +26,8 @@ export default class AddUser extends Block<AddUserProps> {
     };
   }
 
-  handleUserSearch() {
-    console.log("handleUserSearch", this);
+  handleUserSearch(e: Event) {
+    e.preventDefault();
 
     const input = this.refs.login
       .getContent()
@@ -53,30 +53,32 @@ export default class AddUser extends Block<AddUserProps> {
       <div class="add-user__wrapper">
         {{#Layout class="add-user" }}
           {{#WindowLayout title="Добавить контакт в чат" }}
-            {{{ControlledInput
-              label="Username:"
-              id="login"
-              name="login"
-              value="${values.login}"
-              error="${errors.login}"
-              type="text"
-              ref="login"
-              placeholder="Поиск по username"
-            }}}
-            {{{ErrorComponent text=error}}}
-            <ul>
-            {{#each searchResults}}
-              <li title="Добавить в чат" data-id="{{id}}">
-                {{{Link
-                  text=this.login
-                  onClick=../onUserClick
-              }}}</li>
-            {{/each}}
-            </ul>
-            <div class="align-center">
-              {{{Button text="Поиск" onClick=onUserSearch}}}
-              {{{Button text="Закрыть" onClick=onClose}}}
-            </div>
+            {{#Form onSubmit=onUserSearch}}
+              {{{ControlledInput
+                label="Username:"
+                id="login"
+                name="login"
+                value="${values.login}"
+                error="${errors.login}"
+                type="text"
+                ref="login"
+                placeholder="Поиск по username"
+              }}}
+              {{{ErrorComponent text=error}}}
+              <ul>
+              {{#each searchResults}}
+                <li title="Добавить в чат" data-id="{{id}}">
+                  {{{Link
+                    text=this.login
+                    onClick=../onUserClick
+                }}}</li>
+              {{/each}}
+              </ul>
+              <div class="align-center">
+                {{{Button text="Поиск" type="submit"}}}
+                {{{Button text="Закрыть" onClick=onClose}}}
+              </div>
+            {{/Form}}
           {{/WindowLayout}}
         {{/Layout}}
         </div>

@@ -9,9 +9,7 @@ import type {
   SearchUserRequest,
 } from "./types/user";
 
-const userAPIInstance = new HTTPTransport(
-  "https://ya-praktikum.tech/api/v2/user"
-);
+const userAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/user`);
 
 class UserAPI {
   changeUserData(data: ChangeUserDataRequest) {

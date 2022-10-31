@@ -59,7 +59,9 @@ export class SignInPage extends Block<SignInPageProps> {
     return isValid;
   }
 
-  onSubmit() {
+  onSubmit(e: Event) {
+    e.preventDefault();
+
     if (this.isFormValid()) {
       console.log("action/signIn", this.state.values);
       this.props.dispatch(signIn, this.state.values);
@@ -77,7 +79,7 @@ export class SignInPage extends Block<SignInPageProps> {
     return `
       {{#Layout name="Login" class="signin-page" }}
         {{#WindowLayout title="Вход" }}
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Логин:"
               id="login"
@@ -105,9 +107,9 @@ export class SignInPage extends Block<SignInPageProps> {
             }}}
             {{{ErrorComponent text=signInFormError}}}
 
-            {{{Button text="Авторизоваться" onClick=onSubmit}}}
+            {{{Button text="Авторизоваться" type="submit"}}}
             {{{Link text="Нет аккаунта?" onClick=goSignUp}}}
-          </form>
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;

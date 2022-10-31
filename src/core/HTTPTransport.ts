@@ -15,6 +15,10 @@ type Options = {
 };
 
 type OptionsWithoutMethod = Omit<Options, "method">;
+type HTTPMethod = (
+  url: string,
+  options: OptionsWithoutMethod
+) => Promise<XMLHttpRequest>;
 
 export default class HTTPTransport {
   baseURL: string;
@@ -23,37 +27,37 @@ export default class HTTPTransport {
     this.baseURL = baseURL;
   }
 
-  get(url: string, options: OptionsWithoutMethod = {}) {
+  get: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: Method.GET },
       options.timeout
     );
-  }
+  };
 
-  put(url: string, options: OptionsWithoutMethod = {}) {
+  put: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: Method.PUT },
       options.timeout
     );
-  }
+  };
 
-  post(url: string, options: OptionsWithoutMethod = {}) {
+  post: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: Method.POST },
       options.timeout
     );
-  }
+  };
 
-  delete(url: string, options: OptionsWithoutMethod = {}) {
+  delete: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: Method.DELETE },
       options.timeout
     );
-  }
+  };
 
   async request(
     url: string,

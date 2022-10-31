@@ -5,7 +5,7 @@ import "./windowLayout.css";
 
 interface WindowLayoutPropsWithEvents extends WindowLayoutProps {
   events: {
-    click: (e: Event) => void;
+    click: EventHandler;
   };
 }
 

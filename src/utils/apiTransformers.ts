@@ -9,7 +9,7 @@ import {
 } from "../api/types/chats";
 import { dateTransformer } from "./dateTransformer";
 
-const AVATAR_BASE_URL = "https://ya-praktikum.tech/api/v2/resources";
+const AVATAR_BASE_URL = `${process.env.API_ENDPOINT}/resources`;
 
 export const transformUser = (data: UserDTO): User => {
   return {
