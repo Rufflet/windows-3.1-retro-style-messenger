@@ -1,55 +1,43 @@
-import { Block } from "core";
+import { Block, Dispatch, Router } from "core";
+import { Views, withRouter, withStore } from "utils";
+import { logout } from "services/auth";
+import noAvatar from "assets/no-avatar.png";
+
 import "./profile.css";
 
 export interface ProfilePageProps {
-  avatar?: string;
-  login: string;
-  email: string;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  phone: string;
+  router: Router;
+  dispatch: Dispatch<AppState>;
+  user: Nullable<User>;
 }
 
-export class ProfilePage extends Block {
-  constructor({ avatar, ...props }: ProfilePageProps) {
-    const defaultValues = {
-      values: {
-        login: "",
-        email: "",
-        first_name: "",
-        second_name: "",
-        display_name: "",
-        phone: "",
-      },
-      errors: {
-        login: "",
-        email: "",
-        first_name: "",
-        second_name: "",
-        display_name: "",
-        phone: "",
-      },
-    };
-
-    defaultValues.values = { ...defaultValues.values, ...props };
-
-    super({ ...defaultValues, avatar });
-  }
+export class ProfilePage extends Block<ProfilePageProps> {
+  static componentName = "ProfilePage";
 
   protected getStateFromProps(props: any) {
-    this.state = { ...props };
+    const { avatar, ...values } = props.user;
+    this.state = {
+      avatar,
+      values,
+      goProfileEdit: () => this.props.router.go(Views.ProfileEdit),
+      goChangePassword: () => this.props.router.go(Views.PasswordChange),
+      goLogOut: () => this.props.dispatch(logout),
+      goBack: () => this.props.router.back(),
+    };
   }
 
   render() {
-    const { avatar, values } = this.state;
+    const { values } = this.state;
 
     // language=hbs
     return `
       {{#Layout class="profile-page" }}
         {{#WindowLayout title="Профиль" }}
           <div class="profile-page__avatar">
-            <img src="${avatar}" alt="avatar">
+            <picture>
+              <source srcset="{{avatar}}" width="30" height="30">
+              <img src="${noAvatar}" alt="avatar" width="30" height="30">
+            </picture>
           </div>
         
           <h3 class="profile-page__title">${values.first_name} ${values.second_name}</h3>
@@ -103,13 +91,25 @@ export class ProfilePage extends Block {
               type="tel"
               attrs="readonly"
             }}}
-        
-            <a href="/profile/edit">Изменить данные</a>
-            <a href="/profile/password-change">Изменить пароль</a>
-            <a class="button" href="/">Выйти</a>
+
+            {{{Link text="Изменить данные" onClick=goProfileEdit}}}
+            {{{Link text="Изменить пароль" onClick=goChangePassword}}}
+
+            <div class="align-center">
+              {{{Button text="Выйти" onClick=goLogOut}}}
+              {{{Button text="Назад" onClick=goBack}}}
+            </div>
           </form>
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+function mapStateToProps(state: AppState) {
+  return {
+    user: state.user,
+  };
+}
+
+export default withRouter(withStore(ProfilePage, mapStateToProps));

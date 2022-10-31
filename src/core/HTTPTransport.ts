@@ -1,4 +1,6 @@
-enum METHODS {
+import { queryString } from "utils/helpers";
+
+enum Method {
   GET = "GET",
   PUT = "PUT",
   POST = "POST",
@@ -6,56 +8,81 @@ enum METHODS {
 }
 
 type Options = {
-  method?: METHODS;
-  headers?: Record<string, string>;
-  data?: Document | XMLHttpRequestBodyInit;
+  method: Method;
+  data?: unknown;
   timeout?: number;
+  isFile?: boolean;
 };
 
-function queryStringify(data = {}) {
-  return Object.entries(data)
-    .map(([key, value]) => `${key}=${value}`)
-    .join("&");
-}
+type OptionsWithoutMethod = Omit<Options, "method">;
+type HTTPMethod = (
+  url: string,
+  options: OptionsWithoutMethod
+) => Promise<XMLHttpRequest>;
 
 export default class HTTPTransport {
-  get = (url: string, options: Options = {}) => {
-    const query = queryStringify(options.data);
-    const urlWithParams = query ? `${url}?${query}` : url;
+  baseURL: string;
 
+  constructor(baseURL: string) {
+    this.baseURL = baseURL;
+  }
+
+  get: HTTPMethod = (url, options = {}) => {
     return this.request(
-      urlWithParams,
-      { ...options, method: METHODS.GET },
+      url,
+      { ...options, method: Method.GET },
       options.timeout
     );
   };
 
-  put = (url: string, options: Options = {}) =>
-    this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+  put: HTTPMethod = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: Method.PUT },
+      options.timeout
+    );
+  };
 
-  post = (url: string, options: Options = {}) =>
-    this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  post: HTTPMethod = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: Method.POST },
+      options.timeout
+    );
+  };
 
-  delete = (url: string, options: Options = {}) =>
-    this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+  delete: HTTPMethod = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: Method.DELETE },
+      options.timeout
+    );
+  };
 
-  request = (url: string, options: Options, timeout = 5000) => {
-    const { method, data, headers } = options;
-    return new Promise((resolve, reject) => {
+  async request(
+    url: string,
+    options: Options = { method: Method.GET },
+    timeout = 5000
+  ): Promise<XMLHttpRequest> {
+    let targetUrl = `${this.baseURL}${url}`;
+
+    return new Promise<XMLHttpRequest>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
+      const { method, data, isFile = false } = options;
 
-      if (method) {
-        xhr.open(method, url, true);
+      if (data && method === Method.GET) {
+        targetUrl += `?${queryString(data)}`;
       }
 
+      xhr.open(method, targetUrl, true);
+      if (!isFile) {
+        xhr.setRequestHeader("content-type", "application/json");
+      }
+      xhr.setRequestHeader("accept", "application/json");
+      xhr.responseType = "json";
+
+      xhr.withCredentials = true;
       xhr.timeout = timeout;
-
-      if (headers) {
-        Object.entries(headers).forEach(([key, value]) => {
-          xhr.setRequestHeader(key, value);
-        });
-      }
-
       xhr.onload = () => {
         resolve(xhr);
       };
@@ -64,11 +91,11 @@ export default class HTTPTransport {
       xhr.onerror = reject;
       xhr.ontimeout = reject;
 
-      if (method === METHODS.GET || !data) {
+      if (method === Method.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.send(isFile ? (data as FormData) : JSON.stringify(data));
       }
     });
-  };
+  }
 }

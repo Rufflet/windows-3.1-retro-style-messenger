@@ -8,6 +8,7 @@
   --ms-border-gray: #cdcdcd;
   --win-header-color: var(--ms-blue-color);
   --ms-red: #f04e1f;
+  --ms-backdrop-color-rgb: 161, 161, 161;
 
   /* common */
   --border-color: #000;

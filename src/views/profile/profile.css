@@ -11,10 +11,6 @@
 
   .profile-page__avatar {
     text-align: center;
-
-    > img {
-      border: 1px solid var(--button-border-color);
-    }
   }
 
   .profile-page__title {

@@ -1,9 +1,20 @@
-import Block from "core/Block";
+import { Block, Router } from "core";
+import { withRouter } from "utils";
 import warnPic from "assets/warn.png";
 
 import "./error.css";
 
-export class Error404Page extends Block {
+interface Error404PageProps {
+  router: Router;
+}
+
+export class Error404Page extends Block<Error404PageProps> {
+  protected getStateFromProps() {
+    this.state = {
+      goBack: () => this.props.router.back(),
+    };
+  }
+
   render() {
     // language=hbs
     return `
@@ -19,10 +30,12 @@ export class Error404Page extends Block {
             </div>
           </div>
           <div class="align-center">
-            <a class="button" href="/">Назад</a>
+            {{{Button text="Назад" onClick=goBack}}}
           </div>
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+export default withRouter(Error404Page);

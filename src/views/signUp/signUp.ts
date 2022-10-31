@@ -1,19 +1,21 @@
-import { Block, Validator } from "core";
+import { Block, Dispatch, Router, validate, Validator } from "core";
+import { withRouter, withStore } from "utils";
+import { Views } from "utils/views";
+import { signUp } from "services/auth";
+
 import "./signup.css";
 
 interface SignUpPageProps {
-  email?: string;
-  login?: string;
-  first_name?: string;
-  second_name?: string;
-  phone?: string;
-  password?: string;
-  password2?: string;
+  router: Router;
+  dispatch: Dispatch<AppState>;
+  signUpFormError: Nullable<string>;
 }
 
-export class SignUpPage extends Block {
-  constructor(props: SignUpPageProps) {
-    const defaultValues = {
+export class SignUpPage extends Block<SignUpPageProps> {
+  static componentName = "SignUpPage";
+
+  protected getStateFromProps(props: TemplateProps) {
+    this.state = {
       values: {
         email: "",
         login: "",
@@ -32,57 +34,29 @@ export class SignUpPage extends Block {
         password: "",
         password2: "",
       },
-    };
-
-    defaultValues.values = { ...defaultValues.values, ...props };
-
-    super({
-      ...defaultValues,
-    });
-  }
-
-  protected getStateFromProps(props: TemplateProps) {
-    this.state = {
       onSubmit: this.onSubmit.bind(this),
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
+      goSignIn: () => this.props.router.go(Views.SignIn),
       ...props,
     };
   }
 
   isFormValid() {
-    let isValid = true;
-    const newValues = { ...this.props.values };
-    const newErrors = { ...this.props.errors };
-
-    Object.keys(this.props.values).forEach((key) => {
-      newValues[key] = (
-        this.refs[key].getContent().querySelector("input") as HTMLInputElement
-      ).value;
-
-      const message = Validator(key, newValues[key]);
-      if (message) {
-        isValid = false;
-        newErrors[key] = message;
-      }
-    });
-
-    const newState = {
-      values: newValues,
-      errors: newErrors,
-    };
+    const { newState, isValid } = validate(
+      this.state.values,
+      this.state.errors,
+      this
+    );
 
     this.setState(newState);
-
     return isValid;
   }
 
   onSubmit() {
-    console.log(this.props);
-    console.log(this.state);
-
     if (this.isFormValid()) {
       console.log("action/signUp", this.state.values);
+      this.props.dispatch(signUp, this.state.values);
     }
   }
 
@@ -109,7 +83,7 @@ export class SignUpPage extends Block {
     return `
       {{#Layout class="signup-page" }}
         {{#WindowLayout title="Регистрация" }}
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Почта:"
               id="email"
@@ -200,12 +174,21 @@ export class SignUpPage extends Block {
               onFocus=onFocus
               onBlur=onBlur
             }}}
+            {{{ErrorComponent text=signUpFormError}}}
         
-            {{{Button text="Зарегистрироваться" onClick=onSubmit}}}
-            <a href="/signin">Войти</a>
-          </form>
+            {{{Button text="Зарегистрироваться" type="submit"}}}
+            {{{Link text="Войти" onClick=goSignIn}}}
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+function mapStateToProps(state: AppState) {
+  return {
+    signUpFormError: state.signUpFormError,
+  };
+}
+
+export default withRouter(withStore(SignUpPage, mapStateToProps));

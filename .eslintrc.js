@@ -31,5 +31,6 @@ module.exports = {
     "no-restricted-exports": 0,
     "no-underscore-dangle": 0,
     "class-methods-use-this": 1,
+    "import/no-cycle": 0,
   },
 };

@@ -1,0 +1,9 @@
+.avatar {
+  .avatar__image {
+    cursor: pointer;
+  }
+}
+
+#avatar-input {
+  display: none;
+}

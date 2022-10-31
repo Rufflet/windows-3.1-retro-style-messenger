@@ -1,23 +1,28 @@
 import Block from "core/Block";
 
+interface StartIconPropsWithEvents extends Omit<StartIconProps, "onClick"> {
+  events: {
+    click: EventHandler;
+  };
+}
+
 interface StartIconProps {
-  href: string;
   img: string;
   text: string;
   onClick: () => void;
 }
 
-export class StartIcon extends Block {
+export class StartIcon extends Block<StartIconPropsWithEvents> {
   static componentName = "StartIcon";
 
-  constructor({ href, img, text, onClick }: StartIconProps) {
-    super({ href, img, text, events: { click: onClick } });
+  constructor({ onClick, ...props }: StartIconProps) {
+    super({ ...props, events: { click: onClick } });
   }
 
   protected render(): string {
     // language=hbs
     return `
-      <a class="start-icon" href="{{href}}">
+      <a class="start-icon" href="javascript:void(0)">
         <img class="start-icon__icon" src="{{img}}" alt="{{text}}">
         <span class="start-icon__text">{{text}}</span>
       </a>

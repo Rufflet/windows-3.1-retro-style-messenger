@@ -1,19 +1,23 @@
-import { Block, Validator } from "core";
-import "../profile.css";
-import { ProfilePageProps } from "../profile";
+import { Block, Dispatch, Router, validate, Validator } from "core";
+import { withRouter, withStore } from "utils";
+import { changeAvatar, changeUserData } from "services/profile";
 
-export class ProfileEditPage extends Block {
-  constructor({ avatar, ...props }: ProfilePageProps) {
-    console.log("edit", props);
-    const defaultValues = {
-      values: {
-        login: "",
-        email: "",
-        first_name: "",
-        second_name: "",
-        display_name: "",
-        phone: "",
-      },
+import "../profile.css";
+
+export interface ProfileEditPageProps {
+  router: Router;
+  dispatch: Dispatch<AppState>;
+  user: Nullable<User>;
+  profileEditFormError: Nullable<string>;
+}
+
+export class ProfileEditPage extends Block<ProfileEditPageProps> {
+  static componentName = "ProfileEditPage";
+
+  protected getStateFromProps(props: any) {
+    const { avatar, id: _id, ...values } = props.user;
+    this.state = {
+      values,
       errors: {
         login: "",
         email: "",
@@ -22,52 +26,30 @@ export class ProfileEditPage extends Block {
         display_name: "",
         phone: "",
       },
-    };
-
-    defaultValues.values = { ...defaultValues.values, ...props };
-
-    super({ ...defaultValues, avatar });
-  }
-
-  protected getStateFromProps(props: any) {
-    this.state = {
+      avatar,
       onSubmit: this.onSubmit.bind(this),
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
-      ...props,
+      onAvatarChange: this.handleAvatarChange.bind(this),
+      goBack: () => this.props.router.back(),
     };
   }
 
   isFormValid() {
-    let isValid = true;
-    const newValues = { ...this.props.values };
-    const newErrors = { ...this.props.errors };
-
-    Object.keys(this.props.values).forEach((key) => {
-      newValues[key] = (
-        this.refs[key].getContent().querySelector("input") as HTMLInputElement
-      ).value;
-
-      const message = Validator(key, newValues[key]);
-      if (message) {
-        isValid = false;
-        newErrors[key] = message;
-      }
-    });
-
-    const newState = {
-      values: newValues,
-      errors: newErrors,
-    };
+    const { newState, isValid } = validate(
+      this.state.values,
+      this.state.errors,
+      this
+    );
 
     this.setState(newState);
-
     return isValid;
   }
 
   onSubmit() {
     if (this.isFormValid()) {
       console.log("action/profile-edit", this.state.values);
+      this.props.dispatch(changeUserData, this.state.values);
     }
   }
 
@@ -87,6 +69,20 @@ export class ProfileEditPage extends Block {
     this.refs[name].refs.errorRef.setProps({ text: errorText });
   }
 
+  handleAvatarChange() {
+    const avatarFromElement = document.querySelector(
+      "form.avatar"
+    ) as HTMLFormElement;
+
+    if (avatarFromElement) {
+      const formData = new FormData(
+        document.querySelector("form.avatar") as HTMLFormElement
+      );
+
+      this.props.dispatch(changeAvatar, formData);
+    }
+  }
+
   render() {
     const { avatar, errors, values } = this.state;
 
@@ -95,12 +91,12 @@ export class ProfileEditPage extends Block {
       {{#Layout class="profile-page" }}
         {{#WindowLayout title="Изменить данные профиля" }}
           <div class="profile-page__avatar">
-            <img src="${avatar}" alt="avatar">
+            {{{Avatar imgUrl="${avatar}" onChange=onAvatarChange}}}
           </div>
         
           <h3 class="profile-page__title">${values.first_name} ${values.second_name}</h3>
 
-          <form class="form aligned">
+          {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
               label="Логин:"
               id="login"
@@ -173,11 +169,24 @@ export class ProfileEditPage extends Block {
               onFocus=onFocus
               onBlur=onBlur
             }}}
-        
-            {{{Button text="Сохранить" onClick=onSubmit}}}
-          </form>
+            {{{ErrorComponent text=profileEditFormError}}}
+
+            <div class="align-center">
+              {{{Button text="Сохранить" type="submit"}}}
+              {{{Button text="Назад" onClick=goBack}}}
+            </div>
+          {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}
     `;
   }
 }
+
+function mapStateToProps(state: AppState) {
+  return {
+    user: state.user,
+    profileEditFormError: state.profileEditFormError,
+  };
+}
+
+export default withRouter(withStore(ProfileEditPage, mapStateToProps));

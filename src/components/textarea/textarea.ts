@@ -1,17 +1,26 @@
 import Block from "core/Block";
 
+interface TextareaPropsWithEvents
+  extends Omit<TextareaProps, "onChange" | "onFocus" | "onBlur"> {
+  events: {
+    change?: EventHandler;
+    blur?: EventHandler;
+    focus?: EventHandler;
+  };
+}
+
 export interface TextareaProps {
   id?: string;
   name?: string;
   value?: string;
   placeholder?: string;
   attrs?: string;
-  onBlur?: (e: Event) => void;
-  onFocus?: (e: Event) => void;
-  onChange?: (e: Event) => void;
+  onBlur?: EventHandler;
+  onFocus?: EventHandler;
+  onChange?: EventHandler;
 }
 
-export class Textarea extends Block {
+export class Textarea extends Block<TextareaPropsWithEvents> {
   static componentName = "Textarea";
 
   constructor(props: TextareaProps) {

@@ -4,11 +4,17 @@ import EventBus from "./EventBus";
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P = any> {
+export interface BlockClass<P extends Record<string, any>> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
+}
+
+export default class Block<P extends Record<string, any> = any> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
     FLOW_CDU: "flow:component-did-update",
+    FLOW_CWU: "flow:component-will-unmount",
     FLOW_RENDER: "flow:render",
   } as const;
 
@@ -26,7 +32,7 @@ export default class Block<P = any> {
 
   protected state: any = {};
 
-  refs: { [key: string]: Block /* HTMLElement */ } = {};
+  refs: { [key: string]: Block } = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
@@ -43,18 +49,19 @@ export default class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
-  _registerEvents(eventBus: EventBus<Events>) {
+  private _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
+  private _createResources() {
     this._element = this._createDocumentElement("div");
   }
 
-  protected getStateFromProps(props: any): void {
+  protected getStateFromProps(_props: any): void {
     this.state = {};
   }
 
@@ -63,25 +70,35 @@ export default class Block<P = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: P) {
+  private _componentDidMount(props: P) {
     this.componentDidMount(props);
   }
 
-  componentDidMount(props: P) {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  protected componentDidMount(_props: P) {}
 
-  _componentDidUpdate(oldProps: P, newProps: P) {
+  private _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
     }
+    this.children = {};
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  protected componentDidUpdate(_oldProps: P, _newProps: P) {
     return true;
   }
 
-  setProps = (nextProps: P) => {
+  private _componentWillUnmount() {
+    this.eventBus().destroy();
+    this.componentWillUnmount();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  componentWillUnmount() {}
+
+  setProps = (nextProps: Partial<P>) => {
     if (!nextProps) {
       return;
     }
@@ -101,7 +118,7 @@ export default class Block<P = any> {
     return this._element;
   }
 
-  _render() {
+  private _render() {
     const fragment = this._compile();
 
     this._removeEvents();
@@ -118,7 +135,6 @@ export default class Block<P = any> {
   }
 
   getContent(): HTMLElement {
-    // Хак, чтобы вызвать CDM только после добавления в DOM
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
         if (
@@ -132,23 +148,18 @@ export default class Block<P = any> {
     return this.element!;
   }
 
-  _makePropsProxy(props: any): any {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
-    // const self = this;
-
+  private _makePropsProxy(props: P): P {
     return new Proxy(props as unknown as object, {
       get: (target: Record<string, unknown>, prop: string) => {
         const value = target[prop];
         return typeof value === "function" ? value.bind(target) : value;
       },
       set: (target: Record<string, unknown>, prop: string, value: unknown) => {
+        const oldTarget = { ...target };
         // eslint-disable-next-line no-param-reassign
         target[prop] = value;
 
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
@@ -157,12 +168,13 @@ export default class Block<P = any> {
     }) as unknown as P;
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _removeEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+  private _removeEvents() {
+    const { events }: { events: Record<string, () => void> } = this
+      .props as any;
 
     if (!events || !this._element) {
       return;
@@ -173,8 +185,9 @@ export default class Block<P = any> {
     });
   }
 
-  _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+  private _addEvents() {
+    const { events }: { events: Record<string, () => void> } = this
+      .props as any;
 
     if (!events) {
       return;
@@ -185,7 +198,7 @@ export default class Block<P = any> {
     });
   }
 
-  _compile(): DocumentFragment {
+  private _compile(): DocumentFragment {
     const fragment = document.createElement("template");
 
     /**

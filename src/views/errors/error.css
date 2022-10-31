@@ -5,34 +5,34 @@
   flex-direction: column;
   justify-content: center;
 
-  .window__content {
-    margin: 20px;
-  }
-
   .window {
     min-width: 400px;
-  }
 
-  .window.minimized {
-    min-width: unset;
-    height: unset;
-  }
+    &.maximized {
+      min-width: unset;
+      height: 100%;
+    }
 
-  .window.maximized {
-    min-width: unset;
-    height: inherit;
+    &.minimized {
+      min-width: unset;
+      height: unset;
+    }
+
+    &__content {
+      margin: 20px;
+    }
   }
 
   .error-message {
     display: flex;
 
-    .error-message__image {
+    &__image {
       margin-right: 25px;
       width: 30px;
       height: 30px;
     }
 
-    .error-message__text p:first-child {
+    &__text p:first-child {
       margin-top: 0;
     }
   }
