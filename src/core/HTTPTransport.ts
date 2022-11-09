@@ -17,7 +17,7 @@ type Options = {
 type OptionsWithoutMethod = Omit<Options, "method">;
 type HTTPMethod = (
   url: string,
-  options: OptionsWithoutMethod
+  options?: OptionsWithoutMethod
 ) => Promise<XMLHttpRequest>;
 
 export default class HTTPTransport {
