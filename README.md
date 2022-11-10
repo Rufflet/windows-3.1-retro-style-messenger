@@ -53,6 +53,12 @@ npm run start
 * [500 Error](https://sensational-torte-1795ab.netlify.app/error/500)
 
 ## Changelog:
+### 4 Спринт:
+- внедрён Webpack вместо Parcel
+- добавлен precommit (Husky)
+- настроена Docker-сборка приложения
+- проект размещён в Heroku
+
 ### 3 Спринт:
 - добавлен роутинг
 - внедрено API чатов, авторизации и пользователей
