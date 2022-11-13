@@ -1,8 +1,9 @@
 # Мессенджер для Яндекс.Практикума
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7cb64050-b8e5-4911-b6a1-d8ca851c7ea2/deploy-status)](https://app.netlify.com/sites/sensational-torte-1795ab/deploys)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat)](https://retro-messenger.herokuapp.com)
 
-[Demo (Netlify)](https://sensational-torte-1795ab.netlify.app/) | [Figma](https://www.figma.com/file/TzzWQOaqd8WQ3lo8muPKFN/Messenger)
+[Demo (Heroku)](https://retro-messenger.herokuapp.com) | [Demo (Netlify)](https://sensational-torte-1795ab.netlify.app/) | [Figma](https://www.figma.com/file/TzzWQOaqd8WQ3lo8muPKFN/Messenger)
 
 ## Установка
 
@@ -52,6 +53,14 @@ npm run start
 * [500 Error](https://sensational-torte-1795ab.netlify.app/error/500)
 
 ## Changelog:
+### 4 Спринт:
+- внедрён Webpack вместо Parcel
+- добавлены тесты для роутера, блока, модуля отправки запросов и хранилища
+- проведен аудит пакетов
+- добавлен precommit (Husky)
+- настроена Docker-сборка приложения
+- проект размещён в Heroku
+
 ### 3 Спринт:
 - добавлен роутинг
 - внедрено API чатов, авторизации и пользователей

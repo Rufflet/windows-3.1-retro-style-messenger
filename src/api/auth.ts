@@ -7,6 +7,7 @@ import type {
 } from "./types/auth";
 import HTTPTransport from "../core/HTTPTransport";
 
+console.log(process.env.API_ENDPOINT);
 const authAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/auth`);
 
 class AuthAPI {
