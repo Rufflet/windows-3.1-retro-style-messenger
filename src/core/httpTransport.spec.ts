@@ -1,8 +1,7 @@
 import HTTPTransport from "./HTTPTransport";
 
 describe("HTTPTransport", () => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const API_URL = process.env.API_ENDPOINT!;
+  const API_URL = "https://example.test/api";
   const mockData = { test: 1 };
   const createXHRMock = () => ({
     open: jest.fn(),

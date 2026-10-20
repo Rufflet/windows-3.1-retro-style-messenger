@@ -9,8 +9,6 @@ import {
 } from "../api/types/chats";
 import { dateTransformer } from "./dateTransformer";
 
-const AVATAR_BASE_URL = `${process.env.API_ENDPOINT}/resources`;
-
 export const transformUser = (data: UserDTO): User => {
   return {
     id: data.id,
@@ -20,7 +18,7 @@ export const transformUser = (data: UserDTO): User => {
     phone: data.phone,
     email: data.email,
     display_name: data.display_name ? data.display_name : "",
-    avatar: data.avatar ? `${AVATAR_BASE_URL}${data.avatar}` : "",
+    avatar: data.avatar || "",
   };
 };
 
@@ -43,7 +41,7 @@ export const transformChats = (data: ChatDTO[] = []): Chat[] =>
   data.map((chat) => ({
     id: chat.id,
     title: chat.title,
-    avatar: chat.avatar ? `${AVATAR_BASE_URL}${chat.avatar}` : "",
+    avatar: chat.avatar || "",
     unreadCount: chat.unread_count,
     lastMessage: transformLastMessage(chat.last_message),
   }));

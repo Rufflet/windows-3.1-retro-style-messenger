@@ -1,4 +1,4 @@
-import HTTPTransport from "core/HTTPTransport";
+import MockTransport from "mock/transport";
 import type { UserDTO } from "./types/auth";
 import type {
   ChangeUserDataRequest,
@@ -9,7 +9,7 @@ import type {
   SearchUserRequest,
 } from "./types/user";
 
-const userAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/user`);
+const userAPIInstance = new MockTransport("/api/user");
 
 class UserAPI {
   changeUserData(data: ChangeUserDataRequest) {

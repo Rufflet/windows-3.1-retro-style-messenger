@@ -1,3 +1,4 @@
+import MockTransport from "mock/transport";
 import type {
   GetUserResponseData,
   SignInRequestData,
@@ -5,10 +6,8 @@ import type {
   SignUpRequestData,
   SignUpResponseData,
 } from "./types/auth";
-import HTTPTransport from "../core/HTTPTransport";
 
-console.log(process.env.API_ENDPOINT);
-const authAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/auth`);
+const authAPIInstance = new MockTransport("/api/auth");
 
 class AuthAPI {
   signIn(data: SignInRequestData) {

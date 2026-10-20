@@ -1,77 +1,65 @@
-# Мессенджер для Яндекс.Практикума
+# Windows 3.1 Retro Messenger
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7cb64050-b8e5-4911-b6a1-d8ca851c7ea2/deploy-status)](https://app.netlify.com/sites/sensational-torte-1795ab/deploys)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge&style=flat)](https://retro-messenger.herokuapp.com)
+A messenger UI styled after classic **Windows 3.1**, built as a vanilla TypeScript SPA with a custom component layer (Block + Handlebars), client-side routing, and an in-browser mock backend — so the demo runs fully statically on **GitHub Pages**.
 
-[Demo (Heroku)](https://retro-messenger.herokuapp.com) | [Demo (Netlify)](https://sensational-torte-1795ab.netlify.app/) | [Figma](https://www.figma.com/file/TzzWQOaqd8WQ3lo8muPKFN/Messenger)
+**Demo:** [https://rufflet.github.io/windows-3.1-retro-style-messenger/](https://rufflet.github.io/windows-3.1-retro-style-messenger/)
 
-## Установка
+## Stack
 
-Клонируйте репозиторий:
+- TypeScript, Webpack 5
+- Custom `Block` / `EventBus` / `Router` / `Store`
+- Handlebars templates
+- Client-side mock API + Fake WebSocket (`localStorage` persistence)
+- Jest unit tests
+
+## Quick start
 
 ```sh
-git clone https://github.com/rufflet/middle.messenger.praktikum.yandex.git -b sprint_1
-```
-
-Установите зависимости:
-
-```sh
+git clone https://github.com/Rufflet/windows-3.1-retro-style-messenger.git
+cd windows-3.1-retro-style-messenger
 npm install
-```
-
-## Сборка и Hot-Reload для разработки
-
-```sh
 npm run dev
 ```
 
-## Сборка и минификация для продакшена
+Open [http://localhost:3000](http://localhost:3000).
 
-```sh
-npm run build
-```
+### Demo account
 
+After first load the mock DB is seeded. Sign in with:
 
-## Запуск проекта:
+- **login:** `alex`
+- **password:** `1234567890`
 
-```sh
-npm run start
-```
+Or register a new local user (data stays in your browser’s `localStorage`).
 
-Проект будет доступен по ссылке: http://localhost:3000
+## Scripts
 
-## Доступные страницы:
------
-* [Cover](https://sensational-torte-1795ab.netlify.app)
-* [Login](https://sensational-torte-1795ab.netlify.app/signin)
-* [Registration](https://sensational-torte-1795ab.netlify.app/signup)
-* [Messenger](https://sensational-torte-1795ab.netlify.app/messenger)
-* [Profile](https://sensational-torte-1795ab.netlify.app/profile)
-* [Profile edit](https://sensational-torte-1795ab.netlify.app/profile/edit)
-* [Password edit](https://sensational-torte-1795ab.netlify.app/profile/password-change)
-* [404 Error](https://sensational-torte-1795ab.netlify.app/error/404)
-* [500 Error](https://sensational-torte-1795ab.netlify.app/error/500)
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Webpack dev server with HMR |
+| `npm run build` | Production build → `dist/` (+ `404.html` for SPA) |
+| `npm run build:gh-pages` | Production build with GitHub Pages `publicPath` |
+| `npm start` | Build and serve `dist` via Express |
+| `npm test` | Jest |
+| `npm run lint` | ESLint |
+| `npm run stylelint` | Stylelint |
 
-## Changelog:
-### 4 Спринт:
-- внедрён Webpack вместо Parcel
-- добавлены тесты для роутера, блока, модуля отправки запросов и хранилища
-- проведен аудит пакетов
-- добавлен precommit (Husky)
-- настроена Docker-сборка приложения
-- проект размещён в Heroku
+## Pages
 
-### 3 Спринт:
-- добавлен роутинг
-- внедрено API чатов, авторизации и пользователей
-- подключен WebSocket для работы real-time сообщений
+- `/` — cover
+- `/signin` / `/signup` — auth
+- `/messenger` — chats (auth required)
+- `/profile`, `/profile/edit`, `/profile/password-change`
+- `/error/404`, `/error/500`
 
-### 2 Спринт:
-- внедрён TypeScript
-- добавлена страница с лентой переписки
-- рефакторинг с использованием компонентного подхода (Block и EventBus)
-- выделены компоненты (`src/components`) и страницы (`src/views`)
-- добавлена валидация форм для страниц авторизации, регистрации, отправки сообщений и настроек пользователя
-- генерация страниц теперь на стороне клиента
-- добавлен класс для работы с запросами (`src/core/HTTPTransport.ts`)
-- добавлены анализаторы кода ESLint и Stylelint
+## How the mock backend works
+
+REST calls go through `MockTransport` (same `{ response }` shape as the XHR client). Chat realtime uses `FakeWebSocket` with the original message protocol (`get old` / `message` / `ping`). Seed contacts reply automatically. Everything persists in `localStorage` under `win31-messenger-db`.
+
+## Deploy (GitHub Pages)
+
+Push to the `portfolio` branch; the GitHub Actions workflow builds with:
+
+`PUBLIC_PATH=/windows-3.1-retro-style-messenger/`
+
+and deploys via GitHub Pages. Enable **Settings → Pages → Source: GitHub Actions** once if it is not already on.

@@ -1,13 +1,11 @@
-import HTTPTransport from "core/HTTPTransport";
+import MockTransport from "mock/transport";
 import type { GetTokenResponseData } from "services/types/sockets";
 import type {
+  AddUsersToChatRequest,
+  AddUsersToChatResponseData,
   ChatDTO,
   CreateChatRequest,
   CreateChatResponseData,
-} from "./types/chats";
-import {
-  AddUsersToChatRequest,
-  AddUsersToChatResponseData,
   DeleteChatRequest,
   DeleteChatResponseData,
   DeleteUserFromChatResponseData,
@@ -16,7 +14,7 @@ import {
   GetChatUsersResponse,
 } from "./types/chats";
 
-const chatsAPIInstance = new HTTPTransport(`${process.env.API_ENDPOINT}/chats`);
+const chatsAPIInstance = new MockTransport("/api/chats");
 
 class ChatsAPI {
   get() {

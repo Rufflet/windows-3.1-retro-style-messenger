@@ -1,5 +1,6 @@
 import type { Dispatch } from "core";
 import chatsAPI from "api/chats";
+import { FakeWebSocket } from "mock/fakeWebSocket";
 import { transformMessages, transformMessage, apiHasError } from "utils";
 import { logout } from "./auth";
 import type {
@@ -19,8 +20,8 @@ export const createConnection: DispatchStateHandler<
     }
 
     const userID = state.user?.id;
-    const socket = new WebSocket(
-      `${process.env.WS_ENDPOINT}/chats/${userID}/${action.chatId}/${tokenResponse.token}`
+    const socket = new FakeWebSocket(
+      `/ws/chats/${userID}/${action.chatId}/${tokenResponse.token}`
     );
 
     socket.addEventListener("open", () => {
@@ -35,17 +36,19 @@ export const createConnection: DispatchStateHandler<
     });
 
     socket.addEventListener("close", (event) => {
-      if (event.wasClean) {
+      const closeEvent = event as CloseEvent;
+      if (closeEvent.wasClean) {
         console.log("Соединение закрыто чисто");
       } else {
         console.log("Обрыв соединения");
       }
 
-      console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+      console.log(`Код: ${closeEvent.code} | Причина: ${closeEvent.reason}`);
     });
 
     socket.addEventListener("message", (event) => {
-      const data = JSON.parse(event.data);
+      const messageEvent = event as MessageEvent<string>;
+      const data = JSON.parse(messageEvent.data);
 
       if (Array.isArray(data)) {
         if (!data.length) {

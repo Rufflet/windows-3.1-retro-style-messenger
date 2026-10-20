@@ -1,18 +1,27 @@
 {
   "name": "messenger",
   "version": "1.0.0",
-  "description": "Мессенджер в ретро-стиле Windows 3.1",
+  "description": "Windows 3.1–styled messenger SPA with an in-browser mock backend",
   "scripts": {
     "prepare": "husky install",
     "clean": "rimraf node_modules/",
-    "build": "webpack",
-    "start": "webpack && node server.js",
+    "build": "webpack && node scripts/copy-404.js",
+    "build:gh-pages": "PUBLIC_PATH=/windows-3.1-retro-style-messenger/ webpack && node scripts/copy-404.js",
+    "start": "npm run build && node server.js",
     "dev": "webpack serve --mode=development --progress",
     "lint": "eslint ./src",
     "test": "jest",
     "stylelint": "stylelint ./src/**/*.css"
   },
-  "keywords": [],
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "messenger",
+    "windows-3.1",
+    "typescript",
+    "spa"
+  ],
   "author": "Alexander Ershov",
   "license": "ISC",
   "devDependencies": {
