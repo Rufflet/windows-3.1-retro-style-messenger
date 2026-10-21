@@ -4,6 +4,8 @@ A messenger UI styled after classic **Windows 3.1**, built as a vanilla TypeScri
 
 **Demo:** [https://rufflet.github.io/windows-3.1-retro-style-messenger/](https://rufflet.github.io/windows-3.1-retro-style-messenger/)
 
+![Messenger, signed in as demo, with the Bill Gates chat open](docs/chat.png)
+
 ## Stack
 
 - TypeScript, Webpack 5
@@ -58,7 +60,7 @@ REST calls go through `MockTransport` (same `{ response }` shape as the XHR clie
 
 ## Deploy (GitHub Pages)
 
-Push to the `portfolio` branch; the GitHub Actions workflow builds with:
+Push to `main`. The GitHub Actions workflow builds with:
 
 `PUBLIC_PATH=/windows-3.1-retro-style-messenger/`
 
