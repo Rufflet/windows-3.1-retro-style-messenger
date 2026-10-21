@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const router = new Router();
 
   /**
-   * Помещаем роутер и стор в глобальную область для доступа в хоках with*
-   * @warning Не использовать такой способ на реальный проектах
+   * Expose router and store globally so with* HOCs can reach them.
+   * @warning Do not use this pattern in a production app.
    */
   window.router = router;
   window.store = store;
@@ -44,12 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /**
-   * Инициализируем роутер
+   * Start the router.
    */
   initRouter(router, store);
 
   /**
-   * Загружаем данные для приложения
+   * Load application data.
    */
   store.dispatch(initApp);
 });

@@ -25,12 +25,12 @@ export class Error500Page extends Block<Error500PageProps> {
               <img src="${errorPic}" alt="500">
             </div>
             <div class="error-message__text">
-              <p>Ошибка 500</p>
+              <p>Error 500</p>
               <p>«Internal Server Error»</p>
             </div>
           </div>
           <div class="align-center">
-            {{{Button text="Назад" onClick=goBack}}}
+            {{{Button text="Back" onClick=goBack}}}
           </div>
         {{/WindowLayout}}
       {{/Layout}}

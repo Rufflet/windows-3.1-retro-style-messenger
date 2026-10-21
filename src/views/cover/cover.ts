@@ -30,11 +30,11 @@ export class CoverPage extends Block<CoverPagePageProps> {
   render() {
     return `
       {{#Layout name="Onboarding" class="start-page" }}
-        {{#WindowLayout title="Панель управления" }}
-          {{{ StartIcon text="Авторизация" img="${signInPic}" onClick=goSignIn}}}
-          {{{ StartIcon text="Регистрация" img="${signUpPic}" onClick=goSignUp}}}
-          {{{ StartIcon text="Мессенджер" img="${messengerPic}" onClick=goMessenger}}}
-          {{{ StartIcon text="Профиль" img="${profilePic}" onClick=goProfile}}}
+        {{#WindowLayout title="Control Panel" }}
+          {{{ StartIcon text="Sign in" img="${signInPic}" onClick=goSignIn}}}
+          {{{ StartIcon text="Sign up" img="${signUpPic}" onClick=goSignUp}}}
+          {{{ StartIcon text="Messenger" img="${messengerPic}" onClick=goMessenger}}}
+          {{{ StartIcon text="Profile" img="${profilePic}" onClick=goProfile}}}
           {{{ StartIcon text="404" img="${error404pic}" onClick=goError404}}}
           {{{ StartIcon text="500" img="${error500pic}" onClick=goError500}}}
         {{/WindowLayout}}

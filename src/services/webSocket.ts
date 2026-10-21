@@ -38,12 +38,12 @@ export const createConnection: DispatchStateHandler<
     socket.addEventListener("close", (event) => {
       const closeEvent = event as CloseEvent;
       if (closeEvent.wasClean) {
-        console.log("Соединение закрыто чисто");
+        console.log("Connection closed cleanly");
       } else {
-        console.log("Обрыв соединения");
+        console.log("Connection dropped");
       }
 
-      console.log(`Код: ${closeEvent.code} | Причина: ${closeEvent.reason}`);
+      console.log(`Code: ${closeEvent.code} | Reason: ${closeEvent.reason}`);
     });
 
     socket.addEventListener("message", (event) => {
@@ -70,7 +70,7 @@ export const createConnection: DispatchStateHandler<
     });
 
     socket.addEventListener("error", (event: Event) => {
-      console.log("Ошибка", event);
+      console.log("Error", event);
     });
 
     setInterval(() => {

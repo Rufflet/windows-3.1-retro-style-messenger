@@ -4,6 +4,7 @@ import type { ChatDTO, MessageDTO } from "api/types/chats";
 export type StoredUser = UserDTO & { password: string };
 
 export type MockDatabase = {
+  version: number;
   users: StoredUser[];
   sessionUserId: number | null;
   chats: ChatDTO[];

@@ -14,8 +14,8 @@ const REPLIES = [
 export function pickBotReply(userMessage: string): string {
   const normalized = userMessage.trim().toLowerCase();
 
-  if (normalized.includes("привет") || normalized.includes("hello")) {
-    return "Привет! Чем могу помочь?";
+  if (normalized.includes("hello") || normalized.includes("hi")) {
+    return "Hello! How can I help?";
   }
   if (normalized.includes("?")) {
     return "Good question — let me think about it.";

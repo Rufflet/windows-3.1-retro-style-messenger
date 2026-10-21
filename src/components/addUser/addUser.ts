@@ -52,7 +52,7 @@ export default class AddUser extends Block<AddUserProps> {
     return `
       <div class="add-user__wrapper">
         {{#Layout class="add-user" }}
-          {{#WindowLayout title="Добавить контакт в чат" }}
+          {{#WindowLayout title="Add contact to chat" }}
             {{#Form onSubmit=onUserSearch}}
               {{{ControlledInput
                 label="Username:"
@@ -62,12 +62,12 @@ export default class AddUser extends Block<AddUserProps> {
                 error="${errors.login}"
                 type="text"
                 ref="login"
-                placeholder="Поиск по username"
+                placeholder="Search by username"
               }}}
               {{{ErrorComponent text=error}}}
               <ul>
               {{#each searchResults}}
-                <li title="Добавить в чат" data-id="{{id}}">
+                <li title="Add to chat" data-id="{{id}}">
                   {{{Link
                     text=this.login
                     onClick=../onUserClick
@@ -75,8 +75,8 @@ export default class AddUser extends Block<AddUserProps> {
               {{/each}}
               </ul>
               <div class="align-center">
-                {{{Button text="Поиск" type="submit"}}}
-                {{{Button text="Закрыть" onClick=onClose}}}
+                {{{Button text="Search" type="submit"}}}
+                {{{Button text="Close" onClick=onClose}}}
               </div>
             {{/Form}}
           {{/WindowLayout}}

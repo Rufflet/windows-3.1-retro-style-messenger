@@ -4,18 +4,18 @@ export function dateTransformer(time: string) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const months = [
-    "января",
-    "февраля",
-    "марта",
-    "апреля",
-    "мая",
-    "июня",
-    "июля",
-    "августа",
-    "сентября",
-    "октября",
-    "ноября",
-    "декабря",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const diffTime = Math.abs(currentDate.getTime() - date.getTime());
@@ -25,7 +25,7 @@ export function dateTransformer(time: string) {
     case 0:
       return `${hours}:${minutes}`;
     case 1:
-      return `вчера`;
+      return "yesterday";
     default:
       return `${Number(currentDate.toString().slice(8, 10))} ${
         months[currentDate.getMonth()]

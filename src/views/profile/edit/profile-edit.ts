@@ -1,6 +1,12 @@
 import { Block, Dispatch, Router, validate, Validator } from "core";
 import { withRouter, withStore } from "utils";
 import { changeAvatar, changeUserData } from "services/profile";
+import {
+  formatNationalNumber,
+  getCountry,
+  parsePhone,
+  toInternational,
+} from "utils/phone";
 
 import "../profile.css";
 
@@ -14,10 +20,17 @@ export interface ProfileEditPageProps {
 export class ProfileEditPage extends Block<ProfileEditPageProps> {
   static componentName = "ProfileEditPage";
 
+  private countryIso = "US";
+
   protected getStateFromProps(props: any) {
-    const { avatar, id: _id, ...values } = props.user;
+    const { avatar, id: _id, phone, ...values } = props.user;
+    const parsed = parsePhone(phone || "");
+    this.countryIso = parsed.iso;
     this.state = {
-      values,
+      values: {
+        ...values,
+        phone: parsed.national,
+      },
       errors: {
         login: "",
         email: "",
@@ -30,6 +43,8 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
       onSubmit: this.onSubmit.bind(this),
       onFocus: this.onFocus.bind(this),
       onBlur: this.onBlur.bind(this),
+      onPhoneInput: this.onPhoneInput.bind(this),
+      onCountryChange: this.onCountryChange.bind(this),
       onAvatarChange: this.handleAvatarChange.bind(this),
       goBack: () => this.props.router.back(),
     };
@@ -46,11 +61,42 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
     return isValid;
   }
 
-  onSubmit() {
-    if (this.isFormValid()) {
-      console.log("action/profile-edit", this.state.values);
-      this.props.dispatch(changeUserData, this.state.values);
+  onSubmit(e: Event) {
+    e.preventDefault();
+
+    if (!this.isFormValid()) {
+      return;
     }
+
+    const { values } = this.state;
+    this.props.dispatch(changeUserData, {
+      ...values,
+      phone: toInternational(this.countryIso, values.phone),
+    });
+  }
+
+  onCountryChange(e: Event) {
+    const iso = (e.target as HTMLSelectElement).value;
+    this.countryIso = iso;
+    const country = getCountry(iso);
+    const dial = this.element?.querySelector("[data-phone-dial]");
+    const input = this.element?.querySelector(
+      "[name=phone]"
+    ) as HTMLInputElement | null;
+
+    if (dial) {
+      dial.textContent = `+${country.dial}`;
+    }
+    if (input) {
+      input.placeholder = country.example;
+    }
+  }
+
+  onPhoneInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const formatted = formatNationalNumber(input.value);
+    input.value = formatted;
+    this.state.values.phone = formatted;
   }
 
   onFocus(e: Event) {
@@ -85,11 +131,12 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
 
   render() {
     const { avatar, errors, values } = this.state;
+    const country = getCountry(this.countryIso);
 
     // language=hbs
     return `
       {{#Layout class="profile-page" }}
-        {{#WindowLayout title="Изменить данные профиля" }}
+        {{#WindowLayout title="Edit profile" }}
           <div class="profile-page__avatar">
             {{{Avatar imgUrl="${avatar}" onChange=onAvatarChange}}}
           </div>
@@ -98,82 +145,95 @@ export class ProfileEditPage extends Block<ProfileEditPageProps> {
 
           {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
-              label="Логин:"
+              label="Login:"
               id="login"
               name="login"
               value="${values.login}"
               error="${errors.login}"
               type="text"
               ref="login"
-              placeholder="Введите логин"
+              placeholder="Enter login"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
-              label="Почта:"
+              label="Email:"
               id="email"
               name="email"
               value="${values.email}"
               error="${errors.email}"
               type="email"
               ref="email"
-              placeholder="Введите email"
+              placeholder="Enter email"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
-              label="Имя:"
+              label="First name:"
               id="first_name"
               name="first_name"
               value="${values.first_name}"
               error="${errors.first_name}"
               type="text"
               ref="first_name"
-              placeholder="Введите имя"
+              placeholder="Enter first name"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
-              label="Фамилия:"
+              label="Last name:"
               id="second_name"
               name="second_name"
               value="${values.second_name}"
               error="${errors.second_name}"
               type="text"
               ref="second_name"
-              placeholder="Введите фамилию"
+              placeholder="Enter last name"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
-              label="Имя в чате:"
+              label="Display name:"
               id="display_name"
               name="display_name"
               value="${values.display_name}"
               error="${errors.display_name}"
               type="text"
               ref="display_name"
-              placeholder="Введите имя в чате"
+              placeholder="Enter display name"
               onFocus=onFocus
               onBlur=onBlur
             }}}
-            {{{ControlledInput
-              label="Телефон:"
-              id="phone"
-              name="phone"
-              value="${values.phone}"
-              error="${errors.phone}"
-              type="tel"
-              ref="phone"
-              placeholder="+71234567890"
-              onFocus=onFocus
-              onBlur=onBlur
-            }}}
+            <div class="phone-line">
+              <label class="controlled-input__label" for="country">Country:</label>
+              {{{Select
+                id="country"
+                name="country"
+                value="${this.countryIso}"
+                onChange=onCountryChange
+              }}}
+            </div>
+            <div class="phone-line">
+              <span class="controlled-input__label">Phone:</span>
+              <span class="phone-dial" data-phone-dial>+${country.dial}</span>
+              {{{ControlledInput
+                id="phone"
+                name="phone"
+                value="${values.phone}"
+                error="${errors.phone}"
+                type="tel"
+                ref="phone"
+                placeholder="${country.example}"
+                onInput=onPhoneInput
+                onFocus=onFocus
+                onBlur=onBlur
+              }}}
+            </div>
             {{{ErrorComponent text=profileEditFormError}}}
 
             <div class="align-center">
-              {{{Button text="Сохранить" type="submit"}}}
-              {{{Button text="Назад" onClick=goBack}}}
+              {{{Button text="Save" type="submit"}}}
+              {{{Button text="Back" onClick=goBack}}}
             </div>
           {{/Form}}
         {{/WindowLayout}}

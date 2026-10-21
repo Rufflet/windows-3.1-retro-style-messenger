@@ -67,23 +67,23 @@ export default class CreateChat extends Block<CreateChatProps> {
     return `
       <div class="create-chart__wrapper">
         {{#Layout class="create-chat" }}
-          {{#WindowLayout title="Создать чат" }}
+          {{#WindowLayout title="Create chat" }}
             {{#Form onSubmit=createChat}}
               {{{ControlledInput
-                label="Имя чата:"
+                label="Chat name:"
                 id="chatTitle"
                 name="chatTitle"
                 value="${values.chatTitle}"
                 error="${errors.chatTitle}"
                 type="text"
                 ref="chatTitle"
-                placeholder="Введите имя чата"
+                placeholder="Enter chat name"
                 onFocus=onFocus
                 onBlur=onBlur
               }}}
               <div class="align-center">
-                {{{Button text="Создать" type="submit"}}}
-                {{{Button text="Отмена" onClick=close}}}
+                {{{Button text="Create" type="submit"}}}
+                {{{Button text="Cancel" onClick=close}}}
               </div>
             {{/Form}}
           {{/WindowLayout}}

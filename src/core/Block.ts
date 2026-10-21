@@ -163,7 +163,7 @@ export default class Block<P extends Record<string, any> = any> {
         return true;
       },
       deleteProperty() {
-        throw new Error("Нет доступа");
+        throw new Error("Access denied");
       },
     }) as unknown as P;
   }
@@ -202,7 +202,7 @@ export default class Block<P extends Record<string, any> = any> {
     const fragment = document.createElement("template");
 
     /**
-     * Рендерим шаблон
+     * Render the template
      */
     const template = Handlebars.compile(this.render());
     fragment.innerHTML = template({
@@ -213,11 +213,11 @@ export default class Block<P extends Record<string, any> = any> {
     });
 
     /**
-     * Заменяем заглушки на компоненты
+     * Replace stubs with components
      */
     Object.entries(this.children).forEach(([id, component]) => {
       /**
-       * Ищем заглушку по id
+       * Find the stub by id
        */
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
@@ -228,13 +228,13 @@ export default class Block<P extends Record<string, any> = any> {
       const stubChilds = stub.childNodes.length ? stub.childNodes : [];
 
       /**
-       * Заменяем заглушку на component._element
+       * Replace the stub with component._element
        */
       const content = component.getContent();
       stub.replaceWith(content);
 
       /**
-       * Ищем элемент layout-а, куда вставлять детей
+       * Find the layout slot for child nodes
        */
       const slotContent = content.querySelector(
         '[data-slot="1"]'
@@ -247,7 +247,7 @@ export default class Block<P extends Record<string, any> = any> {
     });
 
     /**
-     * Возвращаем фрагмент
+     * Return the fragment
      */
     return fragment.content;
   }

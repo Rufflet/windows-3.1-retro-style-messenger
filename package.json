@@ -13,9 +13,6 @@
     "test": "jest",
     "stylelint": "stylelint ./src/**/*.css"
   },
-  "engines": {
-    "node": ">=16"
-  },
   "keywords": [
     "messenger",
     "windows-3.1",

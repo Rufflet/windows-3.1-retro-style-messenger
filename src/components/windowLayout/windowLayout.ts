@@ -61,10 +61,10 @@ export class WindowLayout extends Block<WindowLayoutPropsWithEvents> {
       <div class="window">
         <div class="window__container">
           <div class="window__title {{#if passive}}window__title_passive{{/if}}">
-            <div class="button close" title="Панель управления">&#8212;</div>
+            <div class="button close" title="Control Panel">&#8212;</div>
             {{title}}
-            <div class="button maximize" title="Развернуть окно">&#9650;</div>
-            <div class="button minimize" title="Свернуть окно">&#9660;</div>
+            <div class="button maximize" title="Maximize">&#9650;</div>
+            <div class="button minimize" title="Minimize">&#9660;</div>
           </div>
           <div class="window__content" data-slot="1"></div>
         </div>

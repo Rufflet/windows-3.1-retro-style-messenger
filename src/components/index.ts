@@ -11,6 +11,7 @@ export { default as Input } from "./input";
 export { default as Layout } from "./layout";
 export { default as Link } from "./link";
 export { default as RemoveUser } from "./removeUser";
+export { default as Select } from "./select";
 export { default as StartIcon } from "./startIcon";
 export { default as Textarea } from "./textarea";
 export { default as WindowLayout } from "./windowLayout";

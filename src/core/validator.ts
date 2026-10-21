@@ -2,32 +2,29 @@ import Block from "core/Block";
 
 const RULES: Record<string, RegExp> = {
   login: /^[a-zA-Z0-9-_]{3,20}$/,
-  phone: /^[+]?(\d+){10,14}$/,
-  password: /^(?=.*?[A-ZА-Я])(?=.*?[0-9])(.){8,40}$/,
+  password: /^(?=.*?[A-Z])(?=.*?[0-9]).{8,40}$/,
   display_name: /^.+$/,
   only_digits: /\D/,
   cyrillic_spaces_symbols: /[^\-\w]/,
   email: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
-  first_letter_capital: /^[A-Z, А-Я]/,
-  symbols: /[^\-,A-Z,a-z,А-Я,а-я,\d]/,
+  first_letter_capital: /^[A-Z]/,
+  symbols: /[^A-Za-z-]/,
   empty_message: /^.+$/,
   contain_digits: /\d/,
 };
 
 const ERROR_MESSAGES: Record<string, string> = {
-  login: "Используйте от 3 до 20 символов",
-  phone:
-    "Не используйте недопустимые символы<br>Используйте от 10 до 15 символов",
-  password:
-    "Используйте 8-40 символов,<br>хотя бы одну заглавную букву и цифру",
-  only_digits: "Не используйте только цифры",
+  login: "Use 3 to 20 characters",
+  phone: "Enter 6 to 14 digits, without the country code",
+  password: "Use 8–40 characters, at least one capital letter and one digit",
+  only_digits: "Do not use digits only",
   cyrillic_spaces_symbols:
-    "Не используйте кириллицу, пробелы и спецсимволы (кроме - и _)",
-  email: "Не верный формат e-mail",
-  first_letter_capital: "Первая буква должна быть заглавной",
-  symbols: "Не используйте спецсимволы",
-  empty_message: "Поле не может быть пустым",
-  contain_digits: "Не используйте цифры",
+    "Use only Latin letters, digits, hyphen, and underscore",
+  email: "Invalid e-mail format",
+  first_letter_capital: "The first letter must be uppercase",
+  symbols: "Do not use special characters",
+  empty_message: "This field cannot be empty",
+  contain_digits: "Do not use digits",
 };
 
 export function Validator(name: string, value: string): string {
@@ -68,11 +65,13 @@ export function Validator(name: string, value: string): string {
         errors.push(ERROR_MESSAGES.contain_digits);
       }
       break;
-    case "phone":
-      if (!RULES.phone.test(value)) {
+    case "phone": {
+      const digits = value.replace(/\D/g, "");
+      if (digits.length < 6 || digits.length > 14) {
         errors.push(ERROR_MESSAGES.phone);
       }
       break;
+    }
     case "message":
     case "chatTitle":
       if (!RULES.empty_message.test(value)) {

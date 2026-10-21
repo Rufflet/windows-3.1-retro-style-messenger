@@ -5,26 +5,26 @@ import avatar3 from "assets/avatar3.png";
 import avatar4 from "assets/avatar4.png";
 import type { MockDatabase, StoredUser } from "./types";
 
-const DEMO_PASSWORD = "1234567890";
+const DEMO_PASSWORD = "12345";
 
 const minutesAgo = (mins: number) =>
   new Date(Date.now() - mins * 60_000).toISOString();
 
 export const DEMO_LOGIN = {
-  login: "alex",
+  login: "demo",
   password: DEMO_PASSWORD,
 };
 
 export function createSeedDatabase(): MockDatabase {
   const demoUser: StoredUser = {
     id: 1,
-    login: "alex",
+    login: "demo",
     first_name: "Alex",
     second_name: "Ershov",
     display_name: "Rufflet",
     avatar: avatar as string,
-    phone: "88005553535",
-    email: "alex@example.com",
+    phone: "+1 555 010 1234",
+    email: "demo@example.com",
     password: DEMO_PASSWORD,
   };
 
@@ -36,7 +36,7 @@ export function createSeedDatabase(): MockDatabase {
       second_name: "Gates",
       display_name: "Bill",
       avatar: avatar3 as string,
-      phone: "11111111111",
+      phone: "+1 555 010 1001",
       email: "bill@example.com",
       password: DEMO_PASSWORD,
     },
@@ -47,7 +47,7 @@ export function createSeedDatabase(): MockDatabase {
       second_name: "French",
       display_name: "Melinda",
       avatar: avatar4 as string,
-      phone: "22222222222",
+      phone: "+44 20 7946 0958",
       email: "melinda@example.com",
       password: DEMO_PASSWORD,
     },
@@ -58,7 +58,7 @@ export function createSeedDatabase(): MockDatabase {
       second_name: "Jobs",
       display_name: "Steve",
       avatar: avatar1 as string,
-      phone: "33333333333",
+      phone: "+81 3 1234 5678",
       email: "steve@example.com",
       password: DEMO_PASSWORD,
     },
@@ -69,7 +69,7 @@ export function createSeedDatabase(): MockDatabase {
       second_name: "Norris",
       display_name: "Chuck",
       avatar: avatar2 as string,
-      phone: "44444444444",
+      phone: "+49 30 1234 5678",
       email: "chuck@example.com",
       password: DEMO_PASSWORD,
     },
@@ -85,6 +85,7 @@ export function createSeedDatabase(): MockDatabase {
   });
 
   return {
+    version: 4,
     users: [demoUser, ...bots],
     sessionUserId: null,
     chats: [
@@ -97,7 +98,7 @@ export function createSeedDatabase(): MockDatabase {
         last_message: {
           user: lastMessageUser(bots[0]),
           time: minutesAgo(45),
-          content: "Привет",
+          content: "Hello",
         },
       },
       {
@@ -109,7 +110,7 @@ export function createSeedDatabase(): MockDatabase {
         last_message: {
           user: lastMessageUser(bots[1]),
           time: minutesAgo(90),
-          content: "Привет",
+          content: "Hello",
         },
       },
       {
@@ -181,7 +182,7 @@ export function createSeedDatabase(): MockDatabase {
           chat_id: 101,
           type: "message",
           time: minutesAgo(47),
-          content: "Привет",
+          content: "Hello",
           is_read: false,
           file: null,
         },
@@ -193,7 +194,7 @@ export function createSeedDatabase(): MockDatabase {
           chat_id: 102,
           type: "message",
           time: minutesAgo(90),
-          content: "Привет",
+          content: "Hello",
           is_read: true,
           file: null,
         },

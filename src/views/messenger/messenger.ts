@@ -190,19 +190,19 @@ export class MessengerPage extends Block<MessengerPageProps> {
             error=removeUserError
           }}}
         {{/if}}
-        {{#WindowLayout title="Мессенджер"}}
+        {{#WindowLayout title="Messenger"}}
           <div class="messenger-layout">
             <div class="messenger-layout__menu-bar menu-bar">
               <div class="menu-bar__item">
-                {{{Link text="<span class='text-underlined'>С</span>оздать чат" onClick=toggleCreateChatForm}}}
+                {{{Link text="<span class='text-underlined'>C</span>reate chat" onClick=toggleCreateChatForm}}}
               </div>
               {{#if activeChat}}
                 <div class="menu-bar__item">
-                  {{{Link text="<span class='text-underlined'>У</span>далить активный чат" onClick=deleteActiveChat}}}
+                  {{{Link text="<span class='text-underlined'>D</span>elete active chat" onClick=deleteActiveChat}}}
                 </div>
               {{/if}}
               <div class="menu-bar__item">
-                {{{Link text="<span class='text-underlined'>П</span>рофиль" onClick=goProfile}}}
+                {{{Link text="<span class='text-underlined'>P</span>rofile" onClick=goProfile}}}
               </div>
             </div>
             <div class="messenger-layout__content">
@@ -233,7 +233,7 @@ export class MessengerPage extends Block<MessengerPageProps> {
                   }}}
                 {{else}}
                   <div class="chat__body_no-active-chat">
-                    <span>Выберите чат</span>
+                    <span>Select a chat</span>
                   </div>
                 {{/if}}
               </div>

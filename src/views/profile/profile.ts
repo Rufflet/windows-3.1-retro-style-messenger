@@ -32,7 +32,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
     // language=hbs
     return `
       {{#Layout class="profile-page" }}
-        {{#WindowLayout title="Профиль" }}
+        {{#WindowLayout title="Profile" }}
           <div class="profile-page__avatar">
             <picture>
               <source srcset="{{avatar}}" width="30" height="30">
@@ -44,7 +44,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
         
           <form class="form aligned">
             {{{ControlledInput
-              label="Логин:"
+              label="Login:"
               id="login"
               name="login"
               value="${values.login}"
@@ -52,7 +52,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
             {{{ControlledInput
-              label="Почта:"
+              label="Email:"
               id="email"
               name="email"
               value="${values.email}"
@@ -60,7 +60,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
             {{{ControlledInput
-              label="Имя:"
+              label="First name:"
               id="first_name"
               name="first_name"
               value="${values.first_name}"
@@ -68,7 +68,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
             {{{ControlledInput
-              label="Фамилия:"
+              label="Last name:"
               id="second_name"
               name="second_name"
               value="${values.second_name}"
@@ -76,7 +76,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
             {{{ControlledInput
-              label="Имя в чате:"
+              label="Display name:"
               id="display_name"
               name="display_name"
               value="${values.display_name}"
@@ -84,7 +84,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
             {{{ControlledInput
-              label="Телефон:"
+              label="Phone:"
               id="phone"
               name="phone"
               value="${values.phone}"
@@ -92,12 +92,12 @@ export class ProfilePage extends Block<ProfilePageProps> {
               attrs="readonly"
             }}}
 
-            {{{Link text="Изменить данные" onClick=goProfileEdit}}}
-            {{{Link text="Изменить пароль" onClick=goChangePassword}}}
+            {{{Link text="Edit profile" onClick=goProfileEdit}}}
+            {{{Link text="Change password" onClick=goChangePassword}}}
 
             <div class="align-center">
-              {{{Button text="Выйти" onClick=goLogOut}}}
-              {{{Button text="Назад" onClick=goBack}}}
+              {{{Button text="Log out" onClick=goLogOut}}}
+              {{{Button text="Back" onClick=goBack}}}
             </div>
           </form>
         {{/WindowLayout}}

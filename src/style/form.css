@@ -7,3 +7,20 @@
 .form.aligned {
   align-items: center;
 }
+
+.form-hint {
+  margin: 0 0 12px;
+  max-width: 28em;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.phone-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phone-dial {
+  min-width: 2.6em;
+}

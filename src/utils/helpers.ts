@@ -109,7 +109,7 @@ function getParams(data: PlainObject | [], parentKey?: string) {
 
 export function queryString(data: PlainObject) {
   if (!isPlainObject(data)) {
-    throw new Error("Входной параметр должен быть объектом");
+    throw new Error("Expected an object");
   }
 
   return getParams(data)

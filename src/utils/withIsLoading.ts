@@ -5,8 +5,8 @@ type WithIsLoading = {
 };
 
 /**
- * HOC не подписан на изменения стора, поэтому будет корректно работать
- * только при обернутом withStore хоке.
+ * This HOC does not subscribe to the store, so it only stays in sync
+ * when wrapped with withStore.
  */
 export function withIsLoading<P extends WithIsLoading>(
   WrappedBlock: BlockClass<P>

@@ -6,6 +6,7 @@ interface InputPropsWithEvents
     change?: EventHandler;
     blur?: EventHandler;
     focus?: EventHandler;
+    input?: EventHandler;
   };
 }
 
@@ -21,6 +22,7 @@ export interface InputProps {
   onBlur?: EventHandler;
   onFocus?: EventHandler;
   onChange?: EventHandler;
+  onInput?: EventHandler;
 }
 
 export class Input extends Block<InputPropsWithEvents> {
@@ -33,6 +35,7 @@ export class Input extends Block<InputPropsWithEvents> {
         blur: props.onBlur,
         focus: props.onFocus,
         change: props.onChange,
+        input: props.onInput,
       },
     });
   }

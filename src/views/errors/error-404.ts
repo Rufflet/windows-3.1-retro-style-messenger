@@ -25,12 +25,12 @@ export class Error404Page extends Block<Error404PageProps> {
               <img src="${warnPic}" alt="404">
             </div>
             <div class="error-message__text">
-              <p>Ошибка 404</p>
-              <p>«Не найдено»</p>
+              <p>Error 404</p>
+              <p>Not found</p>
             </div>
           </div>
           <div class="align-center">
-            {{{Button text="Назад" onClick=goBack}}}
+            {{{Button text="Back" onClick=goBack}}}
           </div>
         {{/WindowLayout}}
       {{/Layout}}

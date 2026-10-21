@@ -76,50 +76,50 @@ export class PasswordChangePage extends Block<PasswordChangePageProps> {
     // language=hbs
     return `
       {{#Layout class="profile-page" }}
-        {{#WindowLayout title="Изменить пароль" }}
+        {{#WindowLayout title="Change password" }}
           {{#Form class="form aligned" onSubmit=onSubmit}}
             {{{ControlledInput
-              label="Старый пароль:"
+              label="Old password:"
               id="oldPassword"
               name="oldPassword"
               value="${values.oldPassword}"
               error="${errors.oldPassword}"
               type="password"
               ref="oldPassword"
-              placeholder="Старый пароль"
+              placeholder="Old password"
               onFocus=onFocus
               onBlur=onBlur
             }}}
 
             {{{ControlledInput
-              label="Новый пароль:"
+              label="New password:"
               id="newPassword"
               name="newPassword"
               value="${values.newPassword}"
               error="${errors.newPassword}"
               type="password"
               ref="newPassword"
-              placeholder="Новый пароль"
+              placeholder="New password"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ControlledInput
-              label="Повторите новый пароль:"
+              label="Repeat new password:"
               id="newPassword2"
               name="newPassword2"
               value="${values.newPassword2}"
               error="${errors.newPassword2}"
               type="password"
               ref="newPassword2"
-              placeholder="Повторите новый пароль"
+              placeholder="Repeat new password"
               onFocus=onFocus
               onBlur=onBlur
             }}}
             {{{ErrorComponent text=passwordChangeFormError}}}
 
             <div class="align-center">
-              {{{Button text="Сохранить" type="submit"}}}
-              {{{Button text="Назад" onClick=goBack}}}
+              {{{Button text="Save" type="submit"}}}
+              {{{Button text="Back" onClick=goBack}}}
             </div>
           {{/Form}}
         {{/WindowLayout}}

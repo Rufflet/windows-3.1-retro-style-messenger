@@ -47,6 +47,7 @@ export class ControlledInput extends Block<ControlledInputPropsPropsEvents> {
             placeholder=placeholder
             onFocus=onFocus
             onBlur=onBlur
+            onInput=onInput
             attrs=attrs
           }}}
         {{/if}}

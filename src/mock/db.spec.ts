@@ -7,7 +7,7 @@ describe("mock database / auth", () => {
     resetDatabase();
   });
 
-  it("seeds demo chats for alex", async () => {
+  it("seeds demo chats for the demo user", async () => {
     const signIn = await dispatchMockRequest({
       baseURL: "/api/auth",
       url: "/signin",
@@ -30,7 +30,7 @@ describe("mock database / auth", () => {
       baseURL: "/api/auth",
       url: "/signin",
       method: "POST",
-      data: { login: "alex", password: "wrong" },
+      data: { login: "demo", password: "wrong" },
     });
     expect(result.response).toEqual({
       reason: "Login or password is incorrect",
@@ -45,7 +45,7 @@ describe("mock database / auth", () => {
       data: DEMO_LOGIN,
     });
     const db = loadDatabase();
-    expect(getSessionUser(db)?.login).toBe("alex");
+    expect(getSessionUser(db)?.login).toBe("demo");
   });
 
   it("creates a message via chat token flow", async () => {

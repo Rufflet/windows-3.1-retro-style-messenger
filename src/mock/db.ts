@@ -5,6 +5,7 @@ import { createSeedDatabase } from "./seed";
 import type { MockDatabase, StoredUser } from "./types";
 
 const STORAGE_KEY = "win31-messenger-db";
+const DB_VERSION = 4;
 
 let memoryFallback: MockDatabase | null = null;
 
@@ -29,12 +30,15 @@ export function loadDatabase(): MockDatabase {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       try {
-        return JSON.parse(raw) as MockDatabase;
+        const parsed = JSON.parse(raw) as MockDatabase;
+        if (parsed.version === DB_VERSION) {
+          return parsed;
+        }
       } catch {
         // fall through to seed
       }
     }
-  } else if (memoryFallback) {
+  } else if (memoryFallback && memoryFallback.version === DB_VERSION) {
     return memoryFallback;
   }
 

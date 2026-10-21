@@ -32,10 +32,10 @@ export default class RemoveUser extends Block<RemoveUserProps> {
     return `
       <div class="remove-user__wrapper">
         {{#Layout class="remove-user" }}
-          {{#WindowLayout title="Удалить пользователя из чата чат" }}
+          {{#WindowLayout title="Remove user from chat" }}
             <ul>
             {{#each users}}
-              <li title="Удлить из чата" data-id="{{id}}">
+              <li title="Remove from chat" data-id="{{id}}">
                 {{{Link
                   text=this.login
                   onClick=../onUserClick
@@ -44,7 +44,7 @@ export default class RemoveUser extends Block<RemoveUserProps> {
             </ul>
             {{{ErrorComponent text=error}}}
             <div class="align-center">
-              {{{Button text="Закрыть" onClick=onClose}}}
+              {{{Button text="Close" onClick=onClose}}}
             </div>
           {{/WindowLayout}}
         {{/Layout}}

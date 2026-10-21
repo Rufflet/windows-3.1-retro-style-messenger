@@ -1,5 +1,6 @@
-import { Router, Dispatch, Block, Validator, validate } from "core";
+import { Router, Dispatch, Block } from "core";
 import { withStore, withRouter } from "utils";
+import { DEMO_LOGIN } from "mock/seed";
 import { signIn } from "services/auth";
 import { Views } from "utils/views";
 
@@ -16,56 +17,22 @@ export class SignInPage extends Block<SignInPageProps> {
 
   protected getStateFromProps(props: TemplateProps) {
     this.state = {
-      values: {
-        login: "",
-        password: "",
-      },
-      errors: {
-        login: "",
-        password: "",
-      },
       onSubmit: this.onSubmit.bind(this),
-      onFocus: this.onFocus.bind(this),
-      onBlur: this.onBlur.bind(this),
       goSignUp: () => this.props.router.go(Views.SignUp),
       ...props,
     };
   }
 
-  onFocus(e: Event) {
-    const input = e.target as HTMLInputElement;
-    const { value, name } = input;
-
-    const errorText = Validator(name, value);
-    this.refs[name].refs.errorRef.setProps({ text: errorText });
-  }
-
-  onBlur(e: Event) {
-    const input = e.target as HTMLInputElement;
-    const { value, name } = input;
-
-    const errorText = Validator(name, value);
-    this.refs[name].refs.errorRef.setProps({ text: errorText });
-  }
-
-  isFormValid() {
-    const { newState, isValid } = validate(
-      this.state.values,
-      this.state.errors,
-      this
-    );
-
-    this.setState(newState);
-    return isValid;
-  }
-
   onSubmit(e: Event) {
     e.preventDefault();
 
-    if (this.isFormValid()) {
-      console.log("action/signIn", this.state.values);
-      this.props.dispatch(signIn, this.state.values);
-    }
+    const form = e.currentTarget as HTMLFormElement;
+    const data = new FormData(form);
+
+    this.props.dispatch(signIn, {
+      login: String(data.get("login") || ""),
+      password: String(data.get("password") || ""),
+    });
   }
 
   componentDidMount() {
@@ -73,42 +40,31 @@ export class SignInPage extends Block<SignInPageProps> {
   }
 
   render() {
-    const { errors, values } = this.state;
-
     // language=hbs
     return `
       {{#Layout name="Login" class="signin-page" }}
-        {{#WindowLayout title="Вход" }}
+        {{#WindowLayout title="Sign in" }}
           {{#Form class="form aligned" onSubmit=onSubmit}}
+            <p class="form-hint">Demo account: <b>${DEMO_LOGIN.login}</b> / <b>${DEMO_LOGIN.password}</b>. You can also sign in with any account you registered in this browser.</p>
             {{{ControlledInput
-              label="Логин:"
+              label="Login:"
               id="login"
               name="login"
-              value="${values.login}"
-              error="${errors.login}"
               type="text"
-              ref="login"
-              placeholder="Введите логин"
-              onFocus=onFocus
-              onBlur=onBlur
+              placeholder="Enter login"
             }}}
 
             {{{ControlledInput
-              label="Пароль:"
+              label="Password:"
               id="password"
               name="password"
-              value="${values.password}"
-              error="${errors.password}"
               type="password"
-              ref="password"
-              placeholder="Введите пароль"
-              onFocus=onFocus
-              onBlur=onBlur
+              placeholder="Enter password"
             }}}
             {{{ErrorComponent text=signInFormError}}}
 
-            {{{Button text="Авторизоваться" type="submit"}}}
-            {{{Link text="Нет аккаунта?" onClick=goSignUp}}}
+            {{{Button text="Sign in" type="submit"}}}
+            {{{Link text="No account?" onClick=goSignUp}}}
           {{/Form}}
         {{/WindowLayout}}
       {{/Layout}}

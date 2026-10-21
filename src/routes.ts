@@ -71,8 +71,7 @@ export function initRouter(router: Router, store: Store<AppState>) {
   });
 
   /**
-   * Глобальный слушатель изменений в сторе
-   * для переключения активного экрана
+   * Global store listener that swaps the active screen.
    */
   store.on("changed", (prevState, nextState) => {
     if (!prevState.appIsInited && nextState.appIsInited) {
@@ -82,7 +81,7 @@ export function initRouter(router: Router, store: Store<AppState>) {
     if (prevState.view !== nextState.view) {
       const Page = getScreenComponent(nextState.view);
       renderDOM(new Page({}));
-      document.title = `Мессенджер / ${Page.componentName}`;
+      document.title = `Messenger / ${Page.componentName}`;
     }
   });
 }

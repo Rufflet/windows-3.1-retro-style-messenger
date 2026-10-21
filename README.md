@@ -27,8 +27,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 After first load the mock DB is seeded. Sign in with:
 
-- **login:** `alex`
-- **password:** `1234567890`
+- **login:** `demo`
+- **password:** `12345`
 
 Or register a new local user (data stays in your browser’s `localStorage`).
 

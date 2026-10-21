@@ -5,28 +5,28 @@ import avatar3 from "assets/avatar3.png";
 import avatar4 from "assets/avatar4.png";
 
 export const signIn = {
-  login: "alex",
-  password: "1234567890",
+  login: "demo",
+  password: "12345",
 };
 
 export const signUp = {
-  login: "alex",
-  password: "1234567890",
+  login: "demo",
+  password: "12345",
   password2: "",
-  email: "rufflet@ya.ru",
-  phone: "88005553535",
+  email: "demo@example.com",
+  phone: "+1 555 010 1234",
   first_name: "Alex",
   second_name: "Ershov",
 };
 
 export const profile = {
   avatar,
-  email: "rufflet@ya.ru",
-  login: "alex",
+  email: "demo@example.com",
+  login: "demo",
   first_name: "Alex",
   second_name: "Ershov",
   display_name: "Rufflet",
-  phone: "88005553535",
+  phone: "+1 555 010 1234",
 };
 
 export const chatList = {
@@ -34,14 +34,14 @@ export const chatList = {
     {
       avatar: avatar3,
       name: "Bill",
-      message: "Привет",
+      message: "Hello",
       time: "11:15",
       count: 1,
     },
     {
       avatar: avatar4,
       name: "Melinda",
-      short_message: "Привет",
+      short_message: "Hello",
       time: "10:32",
       count: 0,
     },
@@ -49,14 +49,14 @@ export const chatList = {
       avatar: avatar1,
       name: "Steve",
       message: "How about that?",
-      time: "Вт",
+      time: "Tue",
       count: 0,
     },
     {
       avatar: avatar2,
       name: "Chuck",
       message: "Lorem Ipsum is simply dummy...",
-      time: "1 мая 2022",
+      time: "May 1, 2022",
       count: 2,
     },
   ],

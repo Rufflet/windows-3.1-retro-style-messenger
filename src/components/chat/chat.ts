@@ -102,11 +102,11 @@ export class Chat extends Block<ChatProps> {
           <div class="chat__header-name">
             <div>{{name}}</div>
             <div>
-              {{{Link text="Пользователей:" onClick=onShowRemoveUserForm}}} {{usersCount}}
+              {{{Link text="Users:" onClick=onShowRemoveUserForm}}} {{usersCount}}
             </div>
           </div>
           <div class="chat__header-actions">
-            {{{Button text="Добавить в чат" onClick=onShowAddUserForm}}}
+            {{{Button text="Add to chat" onClick=onShowAddUserForm}}}
           </div>
         </div>
         <div class="chat__body">
@@ -118,7 +118,7 @@ export class Chat extends Block<ChatProps> {
             {{/each}}
           {{else}}
             <div class="chat__body_no-message">
-              <span>Нет сообщений</span>
+              <span>No messages</span>
             </div>
           {{/if}}
         </div>
@@ -131,7 +131,7 @@ export class Chat extends Block<ChatProps> {
                 name="message"
                 type="textarea"
                 ref="message"
-                placeholder="Ваше сообщение"
+                placeholder="Your message"
                 value="${values.message}"
                 error="${errors.message}"
                 ref="message"
@@ -140,7 +140,7 @@ export class Chat extends Block<ChatProps> {
               }}}
             </div>
             <div class="chat__footer-submit">
-              {{{Button text="Отправить" type="submit"}}}
+              {{{Button text="Send" type="submit"}}}
             </div>
           {{/Form}}
         </div>

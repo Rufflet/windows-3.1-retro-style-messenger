@@ -28,8 +28,7 @@ export default function registerComponent<Props>(
       const { children, refs } = data.root;
 
       /**
-       * Костыль для того, чтобы передавать переменные
-       * внутрь блоков вручную подменяя значение
+       * Workaround that substitutes template variables inside blocks.
        */
       (Object.keys(hash) as any).forEach((key: keyof Props) => {
         if (this[key] && typeof this[key] === "string") {
