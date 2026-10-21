@@ -25,9 +25,9 @@ export function createSeedDatabase(): MockDatabase {
   const demoUser: StoredUser = {
     id: 1,
     login: "demo",
-    first_name: "Alex",
-    second_name: "Ershov",
-    display_name: "Rufflet",
+    first_name: "Demo",
+    second_name: "User",
+    display_name: "demo",
     avatar: avatar as string,
     phone: "+1 555 010 1234",
     email: "demo@example.com",
@@ -91,7 +91,7 @@ export function createSeedDatabase(): MockDatabase {
   });
 
   return {
-    version: 5,
+    version: 6,
     users: [demoUser, ...bots],
     sessionUserId: null,
     chats: [

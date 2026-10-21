@@ -174,7 +174,7 @@ export class SignUpPage extends Block<SignUpPageProps> {
               onBlur=onBlur
             }}}
 
-            <div class="phone-line">
+            <div class="controlled-input">
               <label class="controlled-input__label" for="country">Country:</label>
               {{{Select
                 id="country"
@@ -183,21 +183,23 @@ export class SignUpPage extends Block<SignUpPageProps> {
                 onChange=onCountryChange
               }}}
             </div>
-            <div class="phone-line">
-              <span class="controlled-input__label">Phone:</span>
-              <span class="phone-dial" data-phone-dial>+${country.dial}</span>
-              {{{ControlledInput
-                id="phone"
-                name="phone"
-                value="${values.phone}"
-                error="${errors.phone}"
-                type="tel"
-                ref="phone"
-                placeholder="${country.example}"
-                onInput=onPhoneInput
-                onFocus=onFocus
-                onBlur=onBlur
-              }}}
+            <div class="controlled-input">
+              <label class="controlled-input__label" for="phone">Phone:</label>
+              <div class="phone-field">
+                <span class="phone-dial" data-phone-dial>+${country.dial}</span>
+                {{{ControlledInput
+                  id="phone"
+                  name="phone"
+                  value="${values.phone}"
+                  error="${errors.phone}"
+                  type="tel"
+                  ref="phone"
+                  placeholder="${country.example}"
+                  onInput=onPhoneInput
+                  onFocus=onFocus
+                  onBlur=onBlur
+                }}}
+              </div>
             </div>
 
             {{{ControlledInput

@@ -24,7 +24,7 @@
   text-align: center;
   line-height: 24px;
   height: 25px;
-  font-weight: 500;
+  font-weight: 400;
   border-bottom: solid 1px var(--border-color);
 }
 
@@ -39,8 +39,8 @@
 .window__title .close {
   float: left;
   color: #fff;
-  font-weight: 800;
-  font-size: 21px;
+  font-weight: 400;
+  font-size: 16px;
   line-height: 16px;
   margin-right: 10px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
