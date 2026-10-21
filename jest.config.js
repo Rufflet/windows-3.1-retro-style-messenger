@@ -4,6 +4,7 @@ module.exports = {
   testEnvironment: "jsdom",
   setupFiles: ["dotenv/config"],
   moduleNameMapper: {
+    "^nanoid$": "<rootDir>/node_modules/nanoid/index.cjs",
     "^@root(.*)$": "<rootDir>/src$1",
     "^utils(.*)$": "<rootDir>/src/utils$1",
     "^api(.*)$": "<rootDir>/src/api$1",

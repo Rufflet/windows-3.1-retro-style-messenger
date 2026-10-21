@@ -30,18 +30,20 @@ export default function registerComponent<Props>(
       /**
        * Workaround that substitutes template variables inside blocks.
        */
-      (Object.keys(hash) as any).forEach((key: keyof Props) => {
-        if (this[key] && typeof this[key] === "string") {
+      (Object.keys(hash) as Array<keyof Props>).forEach((key) => {
+        const value = this[key];
+        const current = hash[key as string];
+
+        if (value && typeof value === "string") {
           // eslint-disable-next-line no-param-reassign
-          hash[key] = hash[key].replace(
-            // @ts-expect-error Implicit conversion of a 'symbol' to a 'string' will fail at runtime
-            new RegExp(`{{${key}}}`, "i"),
-            this[key]
+          hash[key as string] = (current as string).replace(
+            new RegExp(`{{${String(key)}}}`, "i"),
+            value
           );
         }
       });
 
-      const component = new Component(hash);
+      const component = new Component(hash as Props);
 
       children[component.id] = component;
 
