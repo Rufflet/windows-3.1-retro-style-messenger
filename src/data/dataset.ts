@@ -15,17 +15,17 @@ export const signUp = {
   password2: "",
   email: "demo@example.com",
   phone: "+1 555 010 1234",
-  first_name: "Alex",
-  second_name: "Ershov",
+  first_name: "Demo",
+  second_name: "User",
 };
 
 export const profile = {
   avatar,
   email: "demo@example.com",
   login: "demo",
-  first_name: "Alex",
-  second_name: "Ershov",
-  display_name: "Rufflet",
+  first_name: "Demo",
+  second_name: "User",
+  display_name: "demo",
   phone: "+1 555 010 1234",
 };
 

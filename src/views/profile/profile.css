@@ -18,10 +18,6 @@
     text-align: center;
   }
 
-  .controlled-input__label {
-    width: 14em;
-  }
-
   form .button {
     margin: 25px 0 5px;
   }
