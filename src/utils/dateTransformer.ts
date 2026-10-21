@@ -1,34 +1,24 @@
+function pad(value: number): string {
+  return value < 10 ? `0${value}` : String(value);
+}
+
+function isSameDay(left: Date, right: Date): boolean {
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  );
+}
+
+// US short date, month first: 8/24/95. Two-digit year keeps the chat list narrow.
 export function dateTransformer(time: string) {
   const date = new Date(time);
-  const currentDate = new Date(Date.now());
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const now = new Date();
 
-  const diffTime = Math.abs(currentDate.getTime() - date.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  switch (diffDays) {
-    case 0:
-      return `${hours}:${minutes}`;
-    case 1:
-      return "yesterday";
-    default:
-      return `${Number(currentDate.toString().slice(8, 10))} ${
-        months[currentDate.getMonth()]
-      }`;
+  if (isSameDay(date, now)) {
+    return `${date.getHours()}:${pad(date.getMinutes())}`;
   }
+
+  const year = date.getFullYear() % 100;
+  return `${date.getMonth() + 1}/${date.getDate()}/${pad(year)}`;
 }

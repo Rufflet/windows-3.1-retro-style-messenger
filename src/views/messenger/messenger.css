@@ -43,7 +43,8 @@
     border-bottom: 1px solid var(--ms-border-gray);
     cursor: pointer;
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background-color: rgba(var(--ms-blue-color-rgb), 0.1);
     }
 
@@ -60,24 +61,35 @@
       display: flex;
       flex-direction: column;
       flex: 1;
+      min-width: 0;
 
       .name {
         font-weight: bold;
         text-transform: capitalize;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .message {
         opacity: 0.6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
     &-meta {
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
+      align-items: flex-end;
+      margin-left: 8px;
 
       .date {
         font-size: 14px;
         opacity: 0.6;
+        white-space: nowrap;
       }
 
       .count {

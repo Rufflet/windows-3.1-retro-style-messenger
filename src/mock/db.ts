@@ -5,7 +5,7 @@ import { createSeedDatabase } from "./seed";
 import type { MockDatabase, StoredUser } from "./types";
 
 const STORAGE_KEY = "win31-messenger-db";
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 
 let memoryFallback: MockDatabase | null = null;
 
